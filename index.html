@@ -1,0 +1,4286 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شعر و ووته — شێروان شەیدا</title>
+  <style>
+    :root {
+      --bg-overlay-top: rgba(14, 14, 15, 0.62);
+      --bg-overlay-bottom: rgba(10, 10, 11, 0.90);
+      --card-overlay-top: rgba(20, 20, 22, 0.78);
+      --card-overlay-bottom: rgba(12, 12, 14, 0.92);
+      --accent-text: #f4f6f9;
+      --sub-text: #e6eaf0;
+      --border-soft: rgba(220, 226, 235, 0.36);
+      --border-pin: rgba(235, 240, 248, 0.65);
+      --glow-a: rgba(225, 230, 238, 0.18);
+      --glow-b: rgba(155, 163, 175, 0.14);
+      --text-glow: 0 2px 10px rgba(0, 0, 0, 0.95);
+      --shadow-3d:
+        0 1px 0 #7b818a,
+        0 2px 0 #5b6068,
+        0 3px 0 #3f434a,
+        0 4px 0 #26292e,
+        0 8px 18px rgba(0, 0, 0, 0.92);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      color: var(--sub-text);
+      background-color: #121213;
+      background-image:
+        linear-gradient(to bottom, var(--bg-overlay-top), var(--bg-overlay-bottom)),
+        url("./bg-1.jpeg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      padding: 16px;
+      position: relative;
+      cursor: pointer;
+      transition: background-image 0.9s ease, color 0.8s ease;
+    }
+
+    .welcome-gate-screen {
+      --w-accent: #f7efe4;
+      --w-sub: #ede2d4;
+      --w-border: rgba(235, 214, 188, 0.52);
+      --w-border-strong: rgba(245, 226, 202, 0.78);
+      --w-glow: rgba(214, 182, 146, 0.24);
+      --w-shadow-3d:
+        0 1px 0 #6e5b48,
+        0 2px 0 #524234,
+        0 3px 0 #382c22,
+        0 4px 0 #211913,
+        0 8px 18px rgba(0, 0, 0, 0.85);
+      --w-text-glow: 0 2px 12px rgba(18, 13, 9, 0.92);
+
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background-color: #2b241e;
+      background-image:
+        linear-gradient(
+          to bottom,
+          rgba(26, 20, 15, 0.42),
+          rgba(22, 17, 13, 0.26) 46%,
+          rgba(16, 12, 9, 0.68)
+        ),
+        url("./welcome-bg.jpeg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 20px 76px;
+      cursor: default;
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.55s ease;
+    }
+
+    .welcome-gate-screen.unlocked {
+      opacity: 0;
+      transform: scale(1.05);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .welcome-gate-stack {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
+
+    .welcome-top-author-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .welcome-top-author {
+      width: 100%;
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--w-accent);
+      text-shadow: var(--w-shadow-3d), 0 0 24px var(--w-glow);
+      letter-spacing: 1px;
+      text-align: center;
+      line-height: 1.4;
+      padding: 4px 12px;
+      animation: gentleFloat3d 4.2s ease-in-out infinite alternate;
+    }
+
+    .welcome-underline-bar {
+      width: 100%;
+      height: 1.5px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        var(--w-border) 18%,
+        var(--w-border-strong) 50%,
+        var(--w-border) 82%,
+        transparent
+      );
+      box-shadow: 0 0 12px var(--w-glow);
+    }
+
+    .welcome-gate-card {
+      width: 100%;
+      background: linear-gradient(170deg, rgba(38, 30, 23, 0.66), rgba(20, 15, 11, 0.78));
+      border: 1px solid var(--w-border-strong);
+      border-radius: 26px;
+      padding: 30px 22px 24px;
+      box-shadow: 0 22px 52px rgba(0, 0, 0, 0.62), 0 0 32px var(--w-glow);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    .welcome-kicker {
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: var(--w-accent);
+      opacity: 0.96;
+      text-shadow: var(--w-text-glow);
+    }
+
+    .welcome-divider-line {
+      width: 68px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--w-border-strong), transparent);
+    }
+
+    .welcome-advice {
+      font-size: 0.96rem;
+      line-height: 1.9;
+      color: var(--w-sub);
+      text-shadow: var(--w-text-glow);
+      max-width: 340px;
+    }
+
+    .heart-key-trigger {
+      margin: 4px 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 15px 30px;
+      border-radius: 999px;
+      border: 1.5px solid var(--w-border-strong);
+      background: linear-gradient(145deg, rgba(247, 239, 228, 0.22), rgba(35, 27, 20, 0.48));
+      color: var(--w-accent);
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.28), 0 0 24px var(--w-glow);
+      transition: transform 0.22s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .heart-key-trigger:hover {
+      transform: translateY(-2px) scale(1.03);
+      background: linear-gradient(145deg, rgba(247, 239, 228, 0.30), rgba(45, 35, 26, 0.56));
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.65), 0 0 32px var(--w-glow);
+    }
+
+    .heart-key-trigger:active {
+      transform: scale(0.95);
+    }
+
+    .pro-icon-heart {
+      width: 26px;
+      height: 26px;
+      fill: var(--w-accent);
+      filter: drop-shadow(0 0 8px var(--w-glow));
+      animation: softHeartBeat 1.8s ease-in-out infinite;
+    }
+
+    .pro-icon-key {
+      width: 26px;
+      height: 26px;
+      stroke: var(--w-accent);
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 8px var(--w-glow));
+      transition: transform 0.35s ease;
+    }
+
+    .heart-key-trigger:hover .pro-icon-key {
+      transform: rotate(-16deg) translateX(-2px);
+    }
+
+    @keyframes softHeartBeat {
+      0%, 100% { transform: scale(1); }
+      18% { transform: scale(1.13); }
+      36% { transform: scale(0.97); }
+      52% { transform: scale(1.07); }
+    }
+
+    .welcome-bottom-phrase {
+      padding-top: 15px;
+      width: 100%;
+      border-top: 1px solid var(--w-border);
+      font-size: 1.06rem;
+      font-weight: 800;
+      color: var(--w-accent);
+      text-shadow: var(--w-text-glow);
+      letter-spacing: 0.2px;
+    }
+
+    .welcome-bottom-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .welcome-bottom-tiktok-link {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--w-accent);
+      padding: 6px 12px;
+      font-size: 1.55rem;
+      font-weight: 900;
+      letter-spacing: 0.6px;
+      text-shadow: var(--w-shadow-3d), 0 0 20px var(--w-glow);
+      animation: heartbeatPulse 1.75s ease-in-out infinite;
+      transition: opacity 0.25s ease, color 0.25s ease;
+    }
+
+    .welcome-bottom-tiktok-link:hover {
+      opacity: 0.92;
+    }
+
+    .welcome-tiktok-svg {
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 10px var(--w-glow));
+    }
+
+    .welcome-bottom-feedback-text {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 24px;
+      width: 100%;
+      text-align: center;
+      color: var(--w-sub);
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.6;
+      letter-spacing: 0.25px;
+      text-shadow: var(--w-text-glow);
+      padding: 4px 14px;
+      pointer-events: none;
+    }
+
+    #bgHeartsCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.65s ease 0.12s, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
+    }
+
+    body.site-entered .page-wrap {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .header-card {
+      width: 100%;
+      background-color: rgba(20, 20, 22, 0.9);
+      background-image:
+        linear-gradient(to bottom, var(--card-overlay-top), var(--card-overlay-bottom)),
+        url("./bg-1.jpeg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: grid;
+      grid-template-columns: auto auto auto auto;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      perspective: 650px;
+      transition: background-image 0.9s ease, border-color 0.8s ease;
+    }
+
+    .header-card > .tiktok-link-badge {
+      justify-self: start;
+    }
+
+    .header-card > .library-nav-btn {
+      justify-self: center;
+    }
+
+    .header-card > .site-sub-3d {
+      justify-self: end;
+    }
+
+    .tiktok-link-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      color: var(--accent-text);
+      background: rgba(16, 16, 18, 0.85);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 6px 9px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-shadow: var(--text-glow);
+      white-space: nowrap;
+      transform-origin: center;
+      animation: heartbeatPulse 1.65s ease-in-out infinite;
+      box-shadow: 0 0 12px var(--glow-a);
+      transition: border-color 0.8s ease, color 0.8s ease, box-shadow 0.8s ease;
+    }
+
+    .library-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-text);
+      background: rgba(18, 18, 22, 0.88);
+      border: 1px solid var(--border-pin);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      font-family: inherit;
+      text-shadow: var(--text-glow);
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 0 12px var(--glow-a);
+      transition: transform 0.18s ease, background 0.25s ease, border-color 0.8s ease, color 0.8s ease;
+    }
+
+    .library-nav-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(34, 34, 42, 0.94);
+    }
+
+    @keyframes heartbeatPulse {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.06); }
+      28% { transform: scale(0.99); }
+      42% { transform: scale(1.04); }
+      70% { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+
+    .tiktok-link-badge:hover {
+      border-color: var(--border-pin);
+    }
+
+    .tiktok-svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .site-sub-3d {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--accent-text);
+      background: rgba(15, 13, 12, 0.9);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 6px 10px;
+      white-space: nowrap;
+      transform: perspective(500px) rotateX(8deg);
+      transform-style: preserve-3d;
+      animation: badgeFloat3d 4s ease-in-out infinite alternate;
+      text-shadow: var(--shadow-3d);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.55);
+      cursor: pointer;
+      transition: color 0.8s ease, border-color 0.8s ease, text-shadow 0.8s ease;
+    }
+
+    @keyframes badgeFloat3d {
+      0% { transform: perspective(500px) rotateX(8deg) translateY(0px); }
+      100% { transform: perspective(500px) rotateX(4deg) translateY(-2px); }
+    }
+
+    .pinned-top-box {
+      position: relative;
+      width: 100%;
+      min-height: 210px;
+      background-color: #161618;
+      background-image:
+        linear-gradient(to bottom, var(--bg-overlay-top), var(--bg-overlay-bottom)),
+        url("./bg-1.jpeg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      border: 1.5px solid var(--border-pin);
+      border-radius: 14px;
+      padding: 18px 16px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.52);
+      overflow: hidden;
+      isolation: isolate;
+      transition: background-image 0.9s ease, border-color 0.8s ease, opacity 0.45s ease;
+    }
+
+    .anim-layer-glow {
+      position: absolute;
+      inset: -25%;
+      background:
+        radial-gradient(circle at 50% 25%, var(--glow-a), transparent 46%),
+        radial-gradient(circle at 45% 65%, var(--glow-b), transparent 52%);
+      animation: driftGlow 7s ease-in-out infinite alternate;
+      z-index: 0;
+      pointer-events: none;
+      transition: background 0.8s ease;
+    }
+
+    #sparkCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .pinned-foreground {
+      position: relative;
+      z-index: 2;
+      perspective: 700px;
+    }
+
+    @keyframes driftGlow {
+      0% { transform: translate3d(-2%, -2%, 0) scale(1); }
+      100% { transform: translate3d(3%, 2%, 0) scale(1.06); }
+    }
+
+    .pinned-3d-wrap {
+      transform: perspective(650px) rotateX(6deg);
+      transform-style: preserve-3d;
+      padding: 4px 2px;
+      animation: gentleFloat3d 4.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes gentleFloat3d {
+      0% { transform: perspective(650px) rotateX(6deg) translateY(0px); }
+      100% { transform: perspective(650px) rotateX(4deg) translateY(-3px); }
+    }
+
+    .poem-3d-title {
+      font-size: 1.32rem;
+      font-weight: 800;
+      color: var(--accent-text);
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+      text-shadow: var(--shadow-3d);
+      transition: color 0.8s ease, text-shadow 0.8s ease;
+    }
+
+    .poem-3d-body {
+      white-space: pre-line;
+      line-height: 1.98;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--sub-text);
+      text-shadow: var(--text-glow);
+      transition: color 0.8s ease, text-shadow 0.8s ease;
+    }
+
+    .posts-stack {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 4px 6px;
+    }
+
+    .poem-line-entry {
+      width: 100%;
+      padding: 18px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .poem-line-separator {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(
+        to left,
+        transparent,
+        var(--border-soft) 22%,
+        var(--border-pin) 50%,
+        var(--border-soft) 78%,
+        transparent
+      );
+      opacity: 0.78;
+      transition: background 0.8s ease;
+    }
+
+    .poem-square-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--accent-text);
+      text-shadow: var(--text-glow);
+      transition: color 0.8s ease, text-shadow 0.8s ease;
+    }
+
+    .poem-square-body {
+      white-space: pre-line;
+      line-height: 1.96;
+      color: var(--sub-text);
+      font-size: 1.01rem;
+      text-shadow: var(--text-glow);
+      transition: color 0.8s ease, text-shadow 0.8s ease;
+    }
+
+    .load-more-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 10px 0 20px;
+    }
+
+    .load-more-btn {
+      background: rgba(20, 14, 10, 0.88);
+      color: var(--accent-text);
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: color 0.8s ease, border-color 0.8s ease;
+    }
+
+    .bookshop-screen {
+      --b-top: rgba(22, 16, 12, 0.72);
+      --b-bottom: rgba(11, 8, 6, 0.93);
+      --b-card-top: rgba(34, 24, 18, 0.82);
+      --b-card-bottom: rgba(16, 11, 8, 0.94);
+      --b-accent: #f6e7d2;
+      --b-sub: #eadbc6;
+      --b-border: rgba(235, 204, 166, 0.42);
+      --b-border-strong: rgba(247, 222, 188, 0.72);
+      --b-glow: rgba(226, 178, 120, 0.22);
+
+      position: fixed;
+      inset: 0;
+      z-index: 75;
+      background-color: #16100c;
+      background-image:
+        linear-gradient(to bottom, var(--b-top), var(--b-bottom)),
+        url("./bg-4.jpeg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow-y: auto;
+      padding: 18px 16px 40px;
+      display: none;
+      cursor: default;
+      transition: background-image 0.65s ease, color 0.55s ease;
+    }
+
+    .bookshop-screen.active {
+      display: block;
+    }
+
+    .bookshop-inner {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bookshop-topbar {
+      background: linear-gradient(160deg, var(--b-card-top), var(--b-card-bottom));
+      border: 1px solid var(--b-border-strong);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 24px var(--b-glow);
+      backdrop-filter: blur(8px);
+    }
+
+    .bookshop-heading-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .bookshop-main-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--b-accent);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+    }
+
+    .bookshop-subtitle {
+      font-size: 0.82rem;
+      color: var(--b-sub);
+      opacity: 0.88;
+    }
+
+    .bookshop-back-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--b-accent);
+      border: 1px solid var(--b-border-strong);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.16s ease, background 0.25s ease;
+    }
+
+    .bookshop-back-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .genre-pills-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 4px 2px;
+    }
+
+    .genre-pill-btn {
+      background: linear-gradient(160deg, var(--b-card-top), var(--b-card-bottom));
+      color: var(--b-sub);
+      border: 1px solid var(--b-border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.42);
+      transition: transform 0.18s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .genre-pill-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--b-border-strong);
+      color: var(--b-accent);
+    }
+
+    .genre-pill-btn.active {
+      border-color: var(--b-border-strong);
+      color: var(--b-accent);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), var(--b-card-bottom));
+      box-shadow: 0 0 18px var(--b-glow), 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .books-grid-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .book-card-item {
+      background: linear-gradient(165deg, var(--b-card-top), var(--b-card-bottom));
+      border: 1px solid var(--b-border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px var(--b-glow);
+      cursor: pointer;
+      backdrop-filter: blur(7px);
+      transition: transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .book-card-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--b-border-strong);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.62), 0 0 26px var(--b-glow);
+    }
+
+    .book-card-top-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--b-sub);
+      opacity: 0.86;
+    }
+
+    .book-genre-tag {
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--b-border);
+      background: rgba(0, 0, 0, 0.28);
+      color: var(--b-accent);
+      font-weight: 700;
+    }
+
+    .book-card-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--b-accent);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.88);
+    }
+
+    .book-card-excerpt {
+      font-size: 0.93rem;
+      line-height: 1.82;
+      color: var(--b-sub);
+      opacity: 0.94;
+    }
+
+    .book-open-cta {
+      align-self: flex-start;
+      margin-top: 4px;
+      font-size: 0.83rem;
+      font-weight: 800;
+      color: var(--b-accent);
+      border-bottom: 1px dashed var(--b-border-strong);
+      padding-bottom: 2px;
+    }
+
+    .bookshop-search-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .bookshop-search-input {
+      width: 100%;
+      background: linear-gradient(160deg, var(--b-card-top), var(--b-card-bottom));
+      color: var(--b-accent);
+      border: 1px solid var(--b-border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.38);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .bookshop-search-input::placeholder {
+      color: var(--b-sub);
+      opacity: 0.72;
+    }
+
+    .bookshop-search-input:focus {
+      border-color: var(--b-border-strong);
+      box-shadow: 0 0 16px var(--b-glow);
+    }
+
+    .book-author-line {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--b-accent);
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .book-reader-author {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--b-sub);
+      opacity: 0.92;
+      margin-top: 2px;
+      margin-bottom: 4px;
+    }
+
+    .book-reader-view {
+      background-color: #14100d;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      border: 1.5px solid var(--b-border-strong);
+      border-radius: 20px;
+      padding: 20px 18px 24px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.72), 0 0 32px var(--b-glow);
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .book-reader-view.active {
+      display: flex;
+    }
+
+    .book-reader-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--b-border);
+      padding-bottom: 12px;
+    }
+
+    .book-reader-title {
+      font-size: 1.28rem;
+      font-weight: 900;
+      color: var(--b-accent);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.92);
+    }
+
+    .book-reader-chapter {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--b-accent);
+      opacity: 0.92;
+    }
+
+    .book-chapters-toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--b-border);
+    }
+
+    .toc-chip-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--b-sub);
+      border: 1px solid var(--b-border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .toc-chip-btn.active {
+      background: rgba(255, 255, 255, 0.22);
+      color: var(--b-accent);
+      border-color: var(--b-border-strong);
+    }
+
+    .book-reader-body {
+      white-space: pre-line;
+      line-height: 2.12;
+      font-size: 1.04rem;
+      color: var(--b-sub);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.92);
+      padding: 6px 2px;
+    }
+
+    .book-reader-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid var(--b-border);
+      padding-top: 14px;
+      margin-top: 4px;
+    }
+
+    .book-nav-btn {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--b-accent);
+      border: 1px solid var(--b-border-strong);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .book-nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .dash-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 95;
+      background: rgba(6, 6, 8, 0.78);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      cursor: default;
+    }
+
+    .dash-backdrop.active {
+      display: flex;
+    }
+
+    .dash-modal {
+      width: 100%;
+      max-width: 460px;
+      max-height: 88vh;
+      overflow-y: auto;
+      background: linear-gradient(160deg, rgba(28, 28, 32, 0.97), rgba(14, 14, 17, 0.98));
+      border: 1.5px solid var(--border-pin);
+      border-radius: 18px;
+      padding: 20px 18px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.75), 0 0 24px var(--glow-a);
+      color: var(--sub-text);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: modalPopIn 0.24s ease-out;
+    }
+
+    @keyframes modalPopIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .dash-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-soft);
+      padding-bottom: 10px;
+    }
+
+    .dash-heading {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--accent-text);
+      text-shadow: var(--text-glow);
+    }
+
+    .dash-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent-text);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .dash-hint {
+      font-size: 0.88rem;
+      color: var(--sub-text);
+      opacity: 0.92;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .dash-input,
+    .dash-textarea {
+      width: 100%;
+      background: rgba(10, 10, 12, 0.85);
+      color: var(--accent-text);
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .dash-input:focus,
+    .dash-textarea:focus {
+      border-color: var(--border-pin);
+      box-shadow: 0 0 0 2px var(--glow-a);
+    }
+
+    .dash-textarea {
+      min-height: 105px;
+      resize: vertical;
+      line-height: 1.8;
+    }
+
+    .dash-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    .dash-primary-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.14);
+      color: var(--accent-text);
+      border: 1px solid var(--border-pin);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .dash-primary-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: translateY(-1px);
+    }
+
+    .dash-error {
+      color: #ff8a8a;
+      font-size: 0.85rem;
+      font-weight: 600;
+      min-height: 18px;
+      margin-top: 6px;
+    }
+
+    .dash-success {
+      color: #8ef5b0;
+      font-size: 0.86rem;
+      font-weight: 600;
+      min-height: 18px;
+      margin-top: 6px;
+    }
+
+    .my-poems-section {
+      margin-top: 16px;
+      border-top: 1px solid var(--border-soft);
+      padding-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .my-poems-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--accent-text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .my-poems-badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .my-poems-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .my-poem-item {
+      background: rgba(12, 12, 15, 0.86);
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .my-poem-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .my-poem-item-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-text);
+      margin-bottom: 4px;
+    }
+
+    .my-poem-item-body {
+      font-size: 0.84rem;
+      color: var(--sub-text);
+      white-space: pre-line;
+      line-height: 1.65;
+      opacity: 0.9;
+    }
+
+    .delete-my-poem-btn {
+      background: rgba(220, 65, 65, 0.18);
+      color: #ff9c9c;
+      border: 1px solid rgba(255, 120, 120, 0.45);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+
+    .delete-my-poem-btn:hover {
+      background: rgba(220, 65, 65, 0.34);
+    }
+
+    .my-poems-empty {
+      font-size: 0.84rem;
+      opacity: 0.72;
+      padding: 6px 0;
+    }
+  
+    #weatherFxCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .weather-toast-banner {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translate(-50%, -22px);
+      z-index: 120;
+      max-width: calc(100vw - 28px);
+      background: linear-gradient(160deg, rgba(20, 24, 30, 0.94), rgba(10, 13, 18, 0.97));
+      color: #f4f8ff;
+      border: 1px solid rgba(190, 222, 255, 0.58);
+      border-radius: 14px;
+      padding: 11px 18px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      line-height: 1.65;
+      text-align: center;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.68), 0 0 22px rgba(145, 200, 255, 0.24);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+    }
+
+    .weather-toast-banner.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    .dark-mode-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-text);
+      background: rgba(12, 12, 14, 0.9);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 6px 9px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      font-family: inherit;
+      text-shadow: var(--text-glow);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform 0.16s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .dark-mode-toggle-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--border-pin);
+    }
+
+    .dark-mode-toggle-btn.active {
+      background: rgba(160, 210, 255, 0.22);
+      border-color: var(--border-pin);
+    }
+
+  </style>
+  <!-- Home Screen / PWA Icon Setup -->
+  <meta name="theme-color" content="#140f0c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="شێروان شەیدا">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="manifest" href="./manifest.json">
+
+</head>
+<body>
+
+  <div id="welcomeGateScreen" class="welcome-gate-screen" role="dialog" aria-modal="true" aria-label="پێشوازی کردنەوەی سایت">
+    <div class="welcome-gate-stack">
+      <div class="welcome-top-author-wrap">
+        <div class="welcome-top-author">شێروان شەیدا</div>
+        <div class="welcome-underline-bar"></div>
+      </div>
+
+      <div class="welcome-gate-card">
+        <div class="welcome-kicker">بەخێر بێیت بۆ دنیای وشە و هەست</div>
+        <div class="welcome-divider-line"></div>
+        <p class="welcome-advice">
+          ئامۆژگاریی من بۆت ئەوەیە بە دڵێکی کراوە و هێمنی ڕۆحەوە، دڵ و کلیلەکە دابگریت تا دەرگای ئەم کۆڕە ئەدەبییە بە ڕووتدا بکرێتەوە.
+        </p>
+        <button id="heartKeyEnterBtn" class="heart-key-trigger" type="button" aria-label="دڵ و کلیل دابگرە بۆ کردنەوەی سایت">
+          <svg class="pro-icon-heart" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <svg class="pro-icon-key" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="7.5" cy="15.5" r="4.5"/>
+            <path d="M10.85 12.15L21 2"/>
+            <path d="M17.5 5.5l3 3"/>
+            <path d="M14.5 8.5l2.5 2.5"/>
+          </svg>
+        </button>
+        <div class="welcome-bottom-phrase">با برۆین ماڵی عاشقان ببینین</div>
+      </div>
+
+      <div class="welcome-bottom-section">
+        <a
+          id="welcomeTiktokBadge"
+          class="welcome-bottom-tiktok-link"
+          href="https://www.tiktok.com/@qsmat_nabu?_r=1&_t=ZS-9BeadwTGv24"
+          target="_top"
+          rel="noopener noreferrer"
+          aria-label="زامى عه شق لە تیکتۆک"
+        >
+          <svg class="welcome-tiktok-svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+          </svg>
+          <span>زامى عه شق</span>
+        </a>
+        <div class="welcome-underline-bar"></div>
+      </div>
+
+      <p class="welcome-bottom-feedback-text">بۆ هەر ڕەخنە و پرسیارێک لۆگۆی تیکتۆک دابگرە</p>
+    </div>
+  </div>
+
+  <audio id="bgMusic" preload="auto" playsinline></audio>
+
+  <canvas id="bgHeartsCanvas"></canvas>
+  <canvas id="weatherFxCanvas"></canvas>
+  <div id="weatherToastBanner" class="weather-toast-banner" role="status" aria-live="polite"></div>
+
+  <div class="page-wrap">
+    <header class="header-card">
+      <a
+        id="tiktokProfileLink"
+        class="tiktok-link-badge"
+        href="https://www.tiktok.com/@qsmat_nabu?_r=1&_t=ZS-9BeadwTGv24"
+        target="_top"
+        rel="noopener noreferrer"
+        aria-label="زامى عه شق"
+      >
+        <svg class="tiktok-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+        </svg>
+        <span>زامى عه شق</span>
+      </a>
+      <button id="openBookshopBtn" class="library-nav-btn" type="button">کتێبخانە</button>
+      <button id="toggleDarkModeBtn" class="dark-mode-toggle-btn" type="button" title="کەش و هەوا">کەش و هەوا</button>
+      <span id="authorNameTrigger" class="site-sub-3d" title="کردنەوەی دەشبۆرد">شێروان شەیدا</span>
+    </header>
+
+    <section id="pinnedTopSection" class="pinned-top-box" aria-label="بەشی سەرەکی">
+      <div class="anim-layer-glow"></div>
+      <canvas id="sparkCanvas"></canvas>
+      <div id="pinnedForeground" class="pinned-foreground"></div>
+    </section>
+
+    <div id="postsStack" class="posts-stack"></div>
+
+    <div class="load-more-wrap">
+      <button id="loadMoreBtn" class="load-more-btn" type="button">زیاتر پیشان بدە</button>
+    </div>
+  </div>
+
+  <section id="bookshopScreen" class="bookshop-screen" aria-label="کتێبخانە">
+    <div class="bookshop-inner">
+      <div class="bookshop-topbar">
+        <div class="bookshop-heading-group">
+          <h1 id="bookshopHeaderTitle" class="bookshop-main-title">کتێبخانە</h1>
+          <p id="bookshopHeaderSub" class="bookshop-subtitle">هەڵبژاردنی پۆل و خوێندنەوەی کتێب بە جەوی تایبەت بە خۆی</p>
+        </div>
+        <button id="closeBookshopBtn" class="bookshop-back-btn" type="button">گەڕانەوە بۆ شعرەکان</button>
+      </div>
+
+      <div class="bookshop-search-row">
+        <input
+          id="bookshopSearchInput"
+          class="bookshop-search-input"
+          type="search"
+          placeholder="گەڕان بەدوای ناوی کتێب یان نووسەر..."
+          autocomplete="off"
+        />
+      </div>
+
+      <div id="genrePillsBar" class="genre-pills-bar" role="tablist" aria-label="پۆلەکانی کتێب"></div>
+
+      <div id="booksGridList" class="books-grid-list"></div>
+
+      <article id="bookReaderView" class="book-reader-view" aria-live="polite">
+        <div class="book-reader-header">
+          <div>
+            <h2 id="readerBookTitle" class="book-reader-title"></h2>
+            <div id="readerBookAuthor" class="book-reader-author"></div>
+            <div id="readerBookChapter" class="book-reader-chapter"></div>
+          </div>
+          <button id="backToBooksListBtn" class="bookshop-back-btn" type="button">لیستی کتێبەکان</button>
+        </div>
+        <div id="readerChaptersToc" class="book-chapters-toc" aria-label="بەشەکانی کتێب"></div>
+        <div id="readerBookBody" class="book-reader-body"></div>
+        <div class="book-reader-nav">
+          <button id="prevChapterBtn" class="book-nav-btn" type="button">بەشی پێشوو</button>
+          <span id="chapterCounterLabel" class="book-reader-chapter"></span>
+          <button id="nextChapterBtn" class="book-nav-btn" type="button">بەشی دواتر</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div id="dashboardBackdrop" class="dash-backdrop" role="dialog" aria-modal="true" aria-labelledby="dashTitle">
+    <div id="dashboardModal" class="dash-modal">
+      <div class="dash-top-bar">
+        <h2 id="dashTitle" class="dash-heading">دەشبۆردی بەڕێوەبردن</h2>
+        <button id="closeDashBtn" class="dash-close-btn" type="button">داخستن</button>
+      </div>
+
+      <div id="authStep">
+        <p class="dash-hint">تکایە ئیمەیڵ و پاسۆردی هەژماری بەڕێوەبەر لە Firebase بنووسە بۆ کردنەوەی بەشی زیادکردن و سڕینەوەی شعر.</p>
+        <input
+          id="adminEmailInput"
+          class="dash-input"
+          type="email"
+          placeholder="ئیمەیڵی بەڕێوەبەر بنووسە..."
+          autocomplete="username"
+          style="margin-bottom: 10px;"
+        />
+        <input
+          id="passcodeInput"
+          class="dash-input"
+          type="password"
+          placeholder="پاسۆرد بنووسە..."
+          autocomplete="current-password"
+        />
+        <div id="authErrorMsg" class="dash-error"></div>
+        <div class="dash-actions">
+          <button id="unlockDashBtn" class="dash-primary-btn" type="button">چوونەژوورەوە</button>
+        </div>
+      </div>
+
+      <div id="addPoemStep" style="display: none;">
+        <p class="dash-hint">شعرەکە ڕاستەوخۆ بۆ داتابەیسی گشتی دەنێردرێت و لای هەموو سەردانکەران دەردەکەوێت (و لە یەکەمین دانەدا وەک پۆستی نوێ دەمێنێتەوە تا بە دەستکاری خۆت بیسڕیتەوە).</p>
+        <input
+          id="newPoemTitleInput"
+          class="dash-input"
+          type="text"
+          placeholder="ناونیشانی شعر (ئارەزوومەندە)"
+          style="margin-bottom: 10px;"
+        />
+        <textarea
+          id="newPoemBodyInput"
+          class="dash-textarea"
+          placeholder="دێڕەکانی شعر لێرە بنووسە..."
+        ></textarea>
+        <div id="poemFeedbackMsg" class="dash-success"></div>
+        <div class="dash-actions">
+          <button id="submitNewPoemBtn" class="dash-primary-btn" type="button">زیادکردنی شعر</button>
+          <button id="logoutDashBtn" class="dash-close-btn" type="button">چوونەدەرەوە</button>
+        </div>
+
+        <div class="my-poems-section">
+          <div class="my-poems-title">
+            <span>شعرە زیادکراوەکانی من</span>
+            <span class="my-poems-badge">بەڕێوبەر</span>
+          </div>
+          <div id="myAddedPoemsList" class="my-poems-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TIKTOK_PROFILE_URL = "https://www.tiktok.com/@qsmat_nabu?_r=1&_t=ZS-9BeadwTGv24";
+    const tiktokLinkEl = document.getElementById("tiktokProfileLink");
+    const welcomeTiktokEl = document.getElementById("welcomeTiktokBadge");
+
+    if (tiktokLinkEl) {
+      tiktokLinkEl.href = TIKTOK_PROFILE_URL;
+      tiktokLinkEl.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+    }
+
+    if (welcomeTiktokEl) {
+      welcomeTiktokEl.href = TIKTOK_PROFILE_URL;
+      welcomeTiktokEl.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+    }
+
+    const bgGalleryThemes = [
+      {
+        src: "./bg-1.jpeg",
+        bgTop: "rgba(14, 14, 15, 0.62)",
+        bgBottom: "rgba(9, 9, 10, 0.90)",
+        cardTop: "rgba(22, 22, 24, 0.78)",
+        cardBottom: "rgba(12, 12, 14, 0.92)",
+        accentText: "#f5f7fa",
+        subText: "#e5e9f0",
+        borderSoft: "rgba(220, 226, 235, 0.36)",
+        borderPin: "rgba(235, 240, 248, 0.65)",
+        glowA: "rgba(225, 230, 238, 0.18)",
+        glowB: "rgba(155, 163, 175, 0.14)",
+        heartRgb: "225, 230, 238",
+        textGlow: "0 2px 10px rgba(0, 0, 0, 0.95)",
+        shadow3d: "0 1px 0 #7b818a, 0 2px 0 #5b6068, 0 3px 0 #3f434a, 0 4px 0 #26292e, 0 8px 18px rgba(0, 0, 0, 0.92)"
+      },
+      {
+        src: "./bg-2.jpeg",
+        bgTop: "rgba(14, 14, 14, 0.64)",
+        bgBottom: "rgba(8, 8, 8, 0.92)",
+        cardTop: "rgba(22, 22, 22, 0.80)",
+        cardBottom: "rgba(11, 11, 11, 0.93)",
+        accentText: "#f7f7f7",
+        subText: "#e2e2e2",
+        borderSoft: "rgba(216, 216, 216, 0.36)",
+        borderPin: "rgba(238, 238, 238, 0.65)",
+        glowA: "rgba(225, 225, 225, 0.18)",
+        glowB: "rgba(145, 145, 145, 0.14)",
+        heartRgb: "225, 225, 225",
+        textGlow: "0 2px 10px rgba(0, 0, 0, 0.96)",
+        shadow3d: "0 1px 0 #757575, 0 2px 0 #575757, 0 3px 0 #3d3d3d, 0 4px 0 #242424, 0 8px 18px rgba(0, 0, 0, 0.92)"
+      },
+      {
+        src: "./bg-3.jpeg",
+        bgTop: "rgba(15, 15, 16, 0.62)",
+        bgBottom: "rgba(9, 9, 10, 0.90)",
+        cardTop: "rgba(23, 23, 25, 0.78)",
+        cardBottom: "rgba(12, 12, 14, 0.92)",
+        accentText: "#f0f3f7",
+        subText: "#e1e6ee",
+        borderSoft: "rgba(212, 218, 228, 0.36)",
+        borderPin: "rgba(232, 236, 244, 0.64)",
+        glowA: "rgba(218, 224, 234, 0.18)",
+        glowB: "rgba(140, 148, 160, 0.14)",
+        heartRgb: "218, 224, 234",
+        textGlow: "0 2px 10px rgba(0, 0, 0, 0.95)",
+        shadow3d: "0 1px 0 #737982, 0 2px 0 #555961, 0 3px 0 #3b3e45, 0 4px 0 #24262b, 0 8px 18px rgba(0, 0, 0, 0.92)"
+      },
+      {
+        src: "./bg-4.jpeg",
+        bgTop: "rgba(22, 13, 4, 0.60)",
+        bgBottom: "rgba(12, 8, 3, 0.88)",
+        cardTop: "rgba(32, 19, 6, 0.78)",
+        cardBottom: "rgba(16, 10, 4, 0.92)",
+        accentText: "#ffe08c",
+        subText: "#fff3d6",
+        borderSoft: "rgba(255, 196, 82, 0.38)",
+        borderPin: "rgba(255, 214, 115, 0.68)",
+        glowA: "rgba(255, 184, 56, 0.25)",
+        glowB: "rgba(224, 120, 20, 0.18)",
+        heartRgb: "255, 204, 96",
+        textGlow: "0 2px 10px rgba(10, 6, 1, 0.95)",
+        shadow3d: "0 1px 0 #9e5b10, 0 2px 0 #7a450a, 0 3px 0 #573006, 0 4px 0 #381e03, 0 8px 18px rgba(0, 0, 0, 0.92)"
+      },
+      {
+        src: "./bg-5.jpeg",
+        bgTop: "rgba(10, 17, 24, 0.60)",
+        bgBottom: "rgba(7, 11, 16, 0.90)",
+        cardTop: "rgba(16, 26, 36, 0.78)",
+        cardBottom: "rgba(9, 15, 22, 0.92)",
+        accentText: "#cfe8ff",
+        subText: "#eaf5ff",
+        borderSoft: "rgba(156, 204, 250, 0.38)",
+        borderPin: "rgba(190, 224, 255, 0.66)",
+        glowA: "rgba(146, 198, 248, 0.22)",
+        glowB: "rgba(88, 132, 178, 0.16)",
+        heartRgb: "166, 210, 255",
+        textGlow: "0 2px 10px rgba(4, 9, 15, 0.95)",
+        shadow3d: "0 1px 0 #3b6996, 0 2px 0 #2b4d70, 0 3px 0 #1d354d, 0 4px 0 #112030, 0 8px 18px rgba(0, 0, 0, 0.92)"
+      },
+      {
+        src: "./bg-6.jpeg",
+        bgTop: "rgba(24, 15, 5, 0.60)",
+        bgBottom: "rgba(13, 9, 4, 0.88)",
+        cardTop: "rgba(34, 21, 8, 0.78)",
+        cardBottom: "rgba(17, 11, 5, 0.92)",
+        accentText: "#ffd594",
+        subText: "#fff3e0",
+        borderSoft: "rgba(247, 182, 89, 0.38)",
+        borderPin: "rgba(255, 204, 122, 0.68)",
+        glowA: "rgba(247, 174, 74, 0.24)",
+        glowB: "rgba(186, 114, 38, 0.16)",
+        heartRgb: "255, 196, 112",
+        textGlow: "0 2px 10px rgba(12, 7, 2, 0.95)",
+        shadow3d: "0 1px 0 #945616, 0 2px 0 #703f0e, 0 3px 0 #4f2b08, 0 4px 0 #331a04, 0 8px 18px rgba(0, 0, 0, 0.92)"
+      }
+    ];
+
+    const STORAGE_BG_KEY = "sherwan_last_bg_index_v1";
+    let leftSiteAt = 0;
+
+    function loadLastBgIndex() {
+      try {
+        const raw = localStorage.getItem(STORAGE_BG_KEY);
+        const num = raw !== null ? parseInt(raw, 10) : 0;
+        return Number.isInteger(num) && num >= 0 && num < bgGalleryThemes.length ? num : 0;
+      } catch (_) {
+        return 0;
+      }
+    }
+
+    function saveLastBgIndex(index) {
+      try {
+        localStorage.setItem(STORAGE_BG_KEY, String(index));
+      } catch (_) {}
+    }
+
+    function pickDifferentBgIndex(excludeIndex) {
+      const choices = bgGalleryThemes
+        .map((_, idx) => idx)
+        .filter((idx) => idx !== excludeIndex);
+      if (choices.length === 0) return 0;
+      return choices[Math.floor(Math.random() * choices.length)];
+    }
+
+    let activeThemeIndex = pickDifferentBgIndex(loadLastBgIndex());
+    saveLastBgIndex(activeThemeIndex);
+    let currentHeartRgb = bgGalleryThemes[activeThemeIndex].heartRgb;
+
+    const AMBIENT_SHAPES = ["star", "moon", "heart", "flower"];
+    const STORAGE_SHAPE_KEY = "sherwan_ambient_shape_idx_v1";
+
+    function loadShapeIndex() {
+      try {
+        const raw = localStorage.getItem(STORAGE_SHAPE_KEY);
+        const num = raw !== null ? parseInt(raw, 10) : 0;
+        return Number.isInteger(num) && num >= 0 && num < AMBIENT_SHAPES.length ? num : 0;
+      } catch (_) {
+        return 0;
+      }
+    }
+
+    function saveShapeIndex(idx) {
+      try {
+        localStorage.setItem(STORAGE_SHAPE_KEY, String(idx));
+      } catch (_) {}
+    }
+
+    let currentShapeIndex = loadShapeIndex();
+
+    function advanceAmbientShape() {
+      currentShapeIndex = (currentShapeIndex + 1) % AMBIENT_SHAPES.length;
+      saveShapeIndex(currentShapeIndex);
+    }
+
+    function applyBackgroundTheme(index) {
+      const theme = bgGalleryThemes[index % bgGalleryThemes.length];
+      currentHeartRgb = theme.heartRgb;
+
+      const rootStyle = document.documentElement.style;
+      rootStyle.setProperty("--bg-overlay-top", theme.bgTop);
+      rootStyle.setProperty("--bg-overlay-bottom", theme.bgBottom);
+      rootStyle.setProperty("--card-overlay-top", theme.cardTop);
+      rootStyle.setProperty("--card-overlay-bottom", theme.cardBottom);
+      rootStyle.setProperty("--accent-text", theme.accentText);
+      rootStyle.setProperty("--sub-text", theme.subText);
+      rootStyle.setProperty("--border-soft", theme.borderSoft);
+      rootStyle.setProperty("--border-pin", theme.borderPin);
+      rootStyle.setProperty("--glow-a", theme.glowA);
+      rootStyle.setProperty("--glow-b", theme.glowB);
+      rootStyle.setProperty("--text-glow", theme.textGlow);
+      rootStyle.setProperty("--shadow-3d", theme.shadow3d);
+
+      document.body.style.backgroundImage =
+        `linear-gradient(to bottom, ${theme.bgTop}, ${theme.bgBottom}), url("${theme.src}")`;
+
+      const pinnedBox = document.getElementById("pinnedTopSection");
+      if (pinnedBox) {
+        pinnedBox.style.backgroundImage =
+          `linear-gradient(to bottom, ${theme.bgTop}, ${theme.bgBottom}), url("${theme.src}")`;
+      }
+
+      document.querySelectorAll(".header-card").forEach((el) => {
+        el.style.backgroundImage =
+          `linear-gradient(to bottom, ${theme.cardTop}, ${theme.cardBottom}), url("${theme.src}")`;
+      });
+    }
+
+    let isLiveWeatherModeActive = false;
+    let activeLiveWeatherTheme = null;
+
+    function switchToAnotherBackground() {
+      if (isLiveWeatherModeActive && activeLiveWeatherTheme) {
+        applyCustomWeatherTheme(activeLiveWeatherTheme);
+        return;
+      }
+      activeThemeIndex = pickDifferentBgIndex(activeThemeIndex);
+      saveLastBgIndex(activeThemeIndex);
+      advanceAmbientShape();
+      applyBackgroundTheme(activeThemeIndex);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        leftSiteAt = Date.now();
+      } else if (leftSiteAt > 0) {
+        leftSiteAt = 0;
+        switchToAnotherBackground();
+      }
+    });
+
+    window.addEventListener("pagehide", () => {
+      leftSiteAt = Date.now();
+    });
+
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted || leftSiteAt > 0) {
+        leftSiteAt = 0;
+        switchToAnotherBackground();
+      }
+    });
+
+    const welcomeGateScreen = document.getElementById("welcomeGateScreen");
+    const heartKeyEnterBtn = document.getElementById("heartKeyEnterBtn");
+    let hasUnlockedWelcome = false;
+    let welcomeAutoEnterTimer = null;
+
+    function unlockSiteFromWelcomeGate() {
+      if (hasUnlockedWelcome) return;
+      hasUnlockedWelcome = true;
+
+      if (welcomeAutoEnterTimer) {
+        clearTimeout(welcomeAutoEnterTimer);
+        welcomeAutoEnterTimer = null;
+      }
+
+      if (welcomeGateScreen) {
+        welcomeGateScreen.classList.add("unlocked");
+      }
+      document.body.classList.add("site-entered");
+      setTimeout(() => {
+        resizeCanvases();
+      }, 150);
+    }
+
+    if (heartKeyEnterBtn) {
+      heartKeyEnterBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        unlockSiteFromWelcomeGate();
+      });
+    }
+
+    welcomeAutoEnterTimer = setTimeout(() => {
+      unlockSiteFromWelcomeGate();
+    }, 10000);
+
+    const featuredEntries = [
+      {
+        id: 1,
+        title: "زامی عەشق",
+        body: "لە ناو بێدەنگیی شەودا، مۆمێک دەسووتێ بۆ یادت\nهەر دێڕێکی ئەم دیوانە، هەناسەیەکە لە باڵات"
+      },
+      {
+        id: 2,
+        title: "ژووری تەختە و فانۆس",
+        body: "لەسەر کورسییە تەختەکە، ڕۆشنایی فانۆسێک\nچیرۆکی کۆن و هەستی تازە کۆ دەکاتەوە"
+      },
+      {
+        id: 3,
+        title: "بێدەنگیی ئێوارە",
+        body: "کاتێک خۆر دەکشێتە پشت گردەکان\nوشەکان هێواشتر دێنە سەر لێو"
+      }
+    ];
+
+    const poemOpenings = [
+      "لە کاتی بێدەنگیی شەودا",
+      "لە ژێر ڕۆشنایی مۆمێکی کزدا",
+      "کاتێک با بەر پەنجەرەی یاد دەکەوێت",
+      "لە نێوان دوو هەناسەی چاوەڕوانیدا",
+      "لەسەر لێواری یادگارییەکی دوور",
+      "لە کاتی کشانەوەی سێبەرەکاندا",
+      "لە ناو دڵۆپە بارانێکی سارددا",
+      "کاتێک وشەکان لە لێو دەترازێن",
+      "لە قووڵایی نیگایەکی بێدەنگدا",
+      "لە کاتی هەڵاتنی بێدەنگانەی بەیانیدا",
+      "لەسەر پەڕەیەکی سپی و بێگەرددا",
+      "لە نێو ئاهەنگی گەڵا وەریوەکاندا",
+      "لە ژێر سێبەری دارە ماندووەکاندا",
+      "کاتێک شەو باڵی بەسەر شاردا دەکێشێت",
+      "لە کاتی کرانەوەی پەنجەرەی بەیانیدا",
+      "لە ناو چاوەڕوانییەکی بێکۆتادا",
+      "لەسەر بەردی تەنیایی کەنارێک",
+      "لە کاتی هەڵکردنی شەماڵی سپێدەدا",
+      "لە ناو سێبەری درەختەکانی خەیاڵدا",
+      "کاتێک تەم دادەگرێتە سەر دۆڵ و کێو"
+    ];
+
+    const poemLinesA = [
+      "دڵ بە هێواشی بانگی ناوێکی ونبوو دەکات",
+      "پەنجەرەی خەیاڵ بە ڕووی ڕابردوودا دەکرێتەوە",
+      "هەنگاوەکان لەسەر شەقامی خەم کۆ دەبنەوە",
+      "ڕۆح لە نێوان هیوا و دووریدا جێگیر دەبێت",
+      "تریفەی مانگ لەسەر دێڕەکان دەخەوێت",
+      "برینێکی کۆن بە هێمنی هەڵدەداتەوە",
+      "دەنگی باران چیرۆکی کۆن دەگێڕێتەوە",
+      "یادێک بەبێ مۆڵەت دێتە ناو هزرەوە",
+      "سۆزێکی شاراوە لە ناو چاوەکاندا دەدرەوشێتەوە",
+      "کات بە بێدەنگی بەسەر چاوەڕوانیدا تێدەپەڕێت",
+      "هەستێکی پاک لە ناو گەردەلوولدا دەمێنێتەوە",
+      "بۆنی چایەکی سارد یادەوەری زیندوو دەکاتەوە",
+      "نیگایەک لە دوورەوە پەیامی دڵ دەگەیەنێت",
+      "مۆمێک لە گۆشەی ژووردا بە خۆی دەسووتێت",
+      "باڵندەی یاد لەسەر چڵی خەم هەڵدەنیشێت",
+      "دەنگی پێیەک لە دوورەوە دڵ دەلەرزێنێت",
+      "خۆر بە زەردەخەنەیەک بە ماڵئاوایی دەکشێت",
+      "ئەستێرەکان لە ئاسمانی بێدەنگیدا دەپشکنن",
+      "شەپۆلەکان پەیامی دەریا بە کەنار دەبەخشن",
+      "دڵۆپە شەونم لەسەر گەڵای گوڵ دەوەستێت"
+    ];
+
+    const poemLinesB = [
+      "و تەنها بێدەنگی وەڵامی دڵ دەداتەوە",
+      "بەڵام شوێنەواری هیچ هەستێک ناسڕێتەوە",
+      "کە هەرگیز لە یادەوەریی ڕۆحدا کاڵ نابێتەوە",
+      "وەک ئەستێرەیەک کە لە تاریکیدا ڕێگا نیشان دەدات",
+      "بۆ ئەوەی دڵ بزانێت هێشتا زیندووە و هەست دەکات",
+      "تا کاتێک وشەکان بتوانن باسی ڕاستییەکان بکەن",
+      "و هەر دێڕێک پشکێک لە ڕاستییەکی نادیار دەگرێت",
+      "بێ ئەوەی پێویستی بە هیچ پێناسەیەکی تر بێت",
+      "وەک شەپۆلێک کە لە کەناری دڵ دەداتەوە",
+      "لەبەر ئەوەی هەندێک هەست بە وشە تەواو نابن",
+      "و یادگارییەکان وەک گوڵی وشک لە ناو دڵدا دەمێنن",
+      "تا ئەو کاتەی دڵ بتوانێت بە بێدەنگی بگری",
+      "چونکە عەشقی ڕاستەقینە بە کات کۆتایی نایەت",
+      "و هەر هەنگاوێک بۆ لای یادت پڕ لە مانا دەبێت",
+      "بۆیە شیعر لە ناو دڵمەوە وەک ئاو هەڵدەقوڵێت",
+      "و هەر وشەیەک لە باوەشی دڵتدا پشوو دەدات",
+      "لەسەر لێواری چاوەڕوانییەک کە هەرگیز ماندوو نابێت",
+      "وەک ڕووناکییەک کە لە ناو قووڵایی شەودا دەدرەوشێتەوە",
+      "کە هەموو ئازارێک بە بوونی تۆ سووک دەبێتەوە",
+      "و ناوت لەسەر هەر پەڕەیەک وەک نەخش دەمێنێتەوە"
+    ];
+
+    const poemTitlesPool = [
+      "شەوی بێدەنگ", "تریفەی مانگ", "هەناسەی یاد", "دڵۆپە باران", "پەنجەرەی خەیاڵ",
+      "مۆمی تەنیایی", "سێبەری ئێوارە", "نامەی بێدەنگ", "گوڵی وشک", "کۆچی هەست",
+      "چاوەڕوانیی شەو", "شەماڵی بەیانی", "ڕێگای نادیار", "بۆنی یادەوەری", "دەریای هەست",
+      "تیشکی خۆر", "ئاسۆی دوور", "چڵی خەم", "دڵی ماندوو", "سۆزی ڕۆح",
+      "گەڵای وەریو", "شەپۆلی دڵ", "کەناری ئارامی", "بێدەنگیی قووڵ", "خەونی سپێدە",
+      "دەنگی باران", "نەخشی باڵات", "ئەستێرەی شەو", "ژووری یاد", "پەیامی دڵ",
+      "تەم و ڕۆشنایی", "هەنگاوی ماندوو", "مەودای دووری", "دڵی پاک", "ڕۆحی شاعیر",
+      "شەوی سارد", "بەیانیی تازە", "دەرگای دڵ", "چرای هیوا", "یادگاریی کۆن"
+    ];
+
+    const quotePrefixes = [
+      "وتەیەک",
+      "حیکمەتێک",
+      "ڕستەیەک بۆ دڵ",
+      "تێڕامانێک",
+      "پەیامێکی بێدەنگ",
+      "وشەیەک بۆ ژیان",
+      "ئامۆژگارییەک",
+      "ڕاستییەک",
+      "وانەیەک لە ژیان",
+      "دێڕێک لە حیکمەت"
+    ];
+
+    const quoteSentencesA = [
+      "هەندێک هەست بە قووڵی دەگەن کە هیچ وشەیەک بەرگەی گوتنیان ناگرێت",
+      "مرۆڤ لە کاتی تەنیاییدا زیاتر لە بەهای ڕاستەقینەی خۆی تێدەگات",
+      "دڵێک کە بە پاکی بەرگەی ئازار بگرێت، جوانترین واتای ژیان دەدۆزێتەوە",
+      "نەوتنی هەندێک قسە، پاراستنی ئارامیی ناوەوەی خۆت و بەرامبەرەکەتە",
+      "یادگارییە ڕاستەقینەکان بە تێپەڕبوونی کات کۆن نابن، تەنها قووڵتر دەبن",
+      "هێمنی لە کاتی توڕەییدا، هێزێکە کە هەموو کەسێک خاوەنی نییە",
+      "هەندێک جار بێدەنگی گەورەترین وەڵامە بۆ پرسیارە بێکۆتاکان",
+      "ئەوەی لە ڕۆحەوە بێت، بەبێ دەنگیش دەگاتە جێگای خۆی",
+      "جوانی لە سادەییدا خۆی حەشار داوە، نەک لە زۆریی دەنگەکاندا",
+      "هیچ شتێک هێندەی دڵسۆزی لە کاتی سەختیدا ڕاستگۆ نییە",
+      "هەموو برینێک بە تێپەڕبوونی کات سارێژ دەبێت، بەڵام جێگاکەی وانایەکە",
+      "ئەو کەسەی بە ڕاستی لەگەڵت بێت، لە بێدەنگییشت تێدەگات",
+      "ژیان لە چرکە بچووک و ڕاستگۆکاندا خۆی پیشان دەدات",
+      "دڵی ماندوو پێویستی بە وشەی زۆر نییە، تەنها بە تێگەیشتن ئارام دەبێت",
+      "هەندێک کەس لە ڕۆیشتنیشیاندا پەیامێکی قووڵ بەجێ دەهێڵن",
+      "پاکیی نییەت هەمیشە ڕێگای خۆی لەناو تاریکیدا دەدۆزێتەوە",
+      "ڕێزگرتن لە هەستی ئەوانی تر، نیشانەی گەورەیی ڕۆحە",
+      "هەموو ڕۆژێک دەرفەتێکی نوێیە بۆ چاککردنەوەی هەڵەکان",
+      "ئارامگرتن لە کاتی سەختیدا، کلیلێکە بۆ کرانەوەی دەرگاکان",
+      "ڕاستگۆیی لەگەڵ خۆتدا، یەکەم هەنگاوی ئارامیی ناوەوەیە"
+    ];
+
+    const quoteSentencesB = [
+      "بۆیە هەمیشە دڵت بە پاکی ڕابگرە",
+      "ئەمەش وانەیەکە کە تەنها ئەزموون فێرمان دەکات",
+      "چونکە هەستە ڕاستەقینەکان هەرگیز درۆ ناکەن",
+      "و ئەمە ئەو ڕاستییەیە کە درەنگ یان زوو دەردەکەوێت",
+      "بەبێ ئەوەی هیچ مەرجێکی زیادەی لەگەڵ بێت",
+      "کە ڕۆح لەگەڵیدا ئاسوودە و جێگیر دەبێت",
+      "لەبەر ئەوەی ڕاستگۆیی هەرگیز لە بەها ناکەوێت",
+      "و هەمیشە ڕۆشناییەک لە ناو دڵدا دەهێڵێتەوە",
+      "چونکە دڵی پاک هەمیشە بەهای خۆی دەپارێزێت",
+      "و هەر ئەزموونێک بینایەک لە دانایی دروست دەکات",
+      "بۆ ئەوەی هەمیشە بە چاوێکی ڕوونتر بڕوانیتە ژیان",
+      "چونکە سادەیی ڕاستگۆترین زمانە بۆ گەیاندنی مانا",
+      "و ئارامی لە ناو دڵدا، گەورەترین سەرمایەی مرۆڤە",
+      "بە هۆی ئەوەی تێگەیشتن پردی نێوان دڵەکانە",
+      "و هەر وشەیەک لە ڕاستییەوە بێت، درەنگ یان زوو دەگات",
+      "چونکە کات بەهای ڕاستەقینەی هەموو شتێک دیاری دەکات",
+      "و هەمیشە هیوایەک لە پشت هەر شەوێکی درێژدا هەیە",
+      "بۆ ئەوەی ڕۆح لە ناو هەموو دۆخێکدا بەهێز بمێنێتەوە",
+      "چونکە میهرەبانی هیچ کاتێک بە بێهودە ناڕوات",
+      "و ئەم ڕاستییە لە ناو دڵی هەر کەسێکی بەئاگادا زیندووە"
+    ];
+
+    const quoteTitlesPool = [
+      "حیکمەتی ژیان", "ڕاستیی دڵ", "وتەی زێڕین", "پەیامی ڕۆح", "ئارامیی ناوەوە",
+      "وانەی ئەزموون", "دڵسۆزی و ڕاستگۆیی", "تێڕامانێکی قووڵ", "نوری حیکمەت", "هێزی ئارامی",
+      "چرای ژیان", "بەهای مرۆڤ", "دەنگی ویژدان", "ڕێگای دانایی", "سۆزی مرۆڤایەتی",
+      "پەندی کوردەواری", "وتەیەکی پڕ مانا", "کلیلی ئارامی", "ڕوانینێکی قووڵ", "تیشکی حەق"
+    ];
+
+    const rawPoems = [...featuredEntries];
+    const usedBodies = new Set(featuredEntries.map((x) => x.body.trim()));
+    const usedTitles = new Set(featuredEntries.map((x) => x.title.trim()));
+
+    const TARGET_POEMS_COUNT = 1000;
+    const TARGET_QUOTES_COUNT = 1000;
+    let generatedPoemsCount = 0;
+    let generatedQuotesCount = 0;
+    let idxCounter = 0;
+    let safeGuard = 0;
+
+    while (
+      (generatedPoemsCount < TARGET_POEMS_COUNT || generatedQuotesCount < TARGET_QUOTES_COUNT) &&
+      safeGuard < 120000
+    ) {
+      safeGuard++;
+      idxCounter++;
+
+      const needPoem = generatedPoemsCount < TARGET_POEMS_COUNT;
+      const needQuote = generatedQuotesCount < TARGET_QUOTES_COUNT;
+      const makePoem = needPoem && (!needQuote || idxCounter % 2 === 1);
+
+      if (makePoem) {
+        const pOpen = poemOpenings[idxCounter % poemOpenings.length];
+        const pLineA = poemLinesA[(idxCounter * 3 + Math.floor(idxCounter / poemOpenings.length)) % poemLinesA.length];
+        let pLineB = poemLinesB[(idxCounter * 7 + Math.floor(idxCounter / poemLinesA.length)) % poemLinesB.length];
+        if (pLineB.includes(pLineA.slice(0, 12))) {
+          pLineB = poemLinesB[(idxCounter + 1) % poemLinesB.length];
+        }
+
+        const body = `${pOpen}، ${pLineA}\n${pLineB}.`;
+        if (usedBodies.has(body)) continue;
+
+        const baseTitle = poemTitlesPool[(idxCounter + generatedPoemsCount) % poemTitlesPool.length];
+        const wordsA = pLineA.split(" ").filter(Boolean);
+        const snippetA = wordsA.slice(0, 2).join(" ");
+        const candidateTitles = [
+          baseTitle,
+          `${baseTitle} — ${snippetA}`,
+          `${baseTitle} (${pOpen.split(" ").slice(0, 2).join(" ")})`,
+          `شیعر: ${snippetA} و ${pLineB.split(" ").filter(Boolean).slice(0, 2).join(" ")}`,
+          `${baseTitle} #${generatedPoemsCount + 1}`
+        ];
+
+        let chosenTitle = null;
+        for (const t of candidateTitles) {
+          if (!usedTitles.has(t)) {
+            chosenTitle = t;
+            break;
+          }
+        }
+
+        if (chosenTitle) {
+          usedBodies.add(body);
+          usedTitles.add(chosenTitle);
+          rawPoems.push({
+            id: rawPoems.length + 1,
+            title: chosenTitle,
+            body
+          });
+          generatedPoemsCount++;
+        }
+      } else if (needQuote) {
+        const qPref = quotePrefixes[idxCounter % quotePrefixes.length];
+        const qSentA = quoteSentencesA[(idxCounter * 5 + Math.floor(idxCounter / quotePrefixes.length)) % quoteSentencesA.length];
+        const qSentB = quoteSentencesB[(idxCounter * 11 + Math.floor(idxCounter / quoteSentencesA.length)) % quoteSentencesB.length];
+
+        const body = `${qSentA}،\n${qSentB}.`;
+        if (usedBodies.has(body)) continue;
+
+        const baseQTitle = quoteTitlesPool[(idxCounter + generatedQuotesCount) % quoteTitlesPool.length];
+        const qWords = qSentA.split(" ").filter(Boolean);
+        const qSnippet = qWords.slice(0, 3).join(" ");
+        const candidateQTitles = [
+          `${qPref} — ${qSnippet}`,
+          `${baseQTitle} — ${qSnippet}`,
+          `${qPref}: ${qWords.slice(0, 4).join(" ")}`,
+          `${baseQTitle} (${qWords.slice(0, 2).join(" ")})`,
+          `${qPref} — ${baseQTitle} #${generatedQuotesCount + 1}`
+        ];
+
+        let chosenQTitle = null;
+        for (const t of candidateQTitles) {
+          if (!usedTitles.has(t)) {
+            chosenQTitle = t;
+            break;
+          }
+        }
+
+        if (chosenQTitle) {
+          usedBodies.add(body);
+          usedTitles.add(chosenQTitle);
+          rawPoems.push({
+            id: rawPoems.length + 1,
+            title: chosenQTitle,
+            body
+          });
+          generatedQuotesCount++;
+        }
+      }
+    }
+
+    function shuffleArray(list) {
+      const arr = [...list];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    const STORAGE_MY_ADDED_POEMS_KEY = "sherwan_admin_added_poems_v1";
+
+    function loadMyAddedPoems() {
+      try {
+        const raw = localStorage.getItem(STORAGE_MY_ADDED_POEMS_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed.filter((p) => p && p.isUserAdded === true) : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveMyAddedPoems(list) {
+      try {
+        localStorage.setItem(STORAGE_MY_ADDED_POEMS_KEY, JSON.stringify(list));
+      } catch (_) {}
+    }
+
+    const shuffledBasePoems = shuffleArray(rawPoems).map((p) => ({ ...p, isUserAdded: false }));
+    let myAddedPoems = loadMyAddedPoems();
+    let cloudSharedPoems = [];
+    let poems = [...myAddedPoems, ...shuffledBasePoems];
+
+    const STORAGE_SEEN_KEY = "sherwan_auto_pinned_seen_v1";
+    function loadSeenPinnedIds() {
+      try {
+        const raw = localStorage.getItem(STORAGE_SEEN_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveSeenPinnedIds(ids) {
+      try {
+        localStorage.setItem(STORAGE_SEEN_KEY, JSON.stringify(ids));
+      } catch (_) {}
+    }
+
+    let seenPinnedIds = loadSeenPinnedIds();
+
+    function pickNextUnseenPoemId(excludeId = null) {
+      const validIds = new Set(poems.map((p) => p.id));
+      seenPinnedIds = seenPinnedIds.filter((id) => validIds.has(id));
+
+      let candidates = poems.filter(
+        (p) => !seenPinnedIds.includes(p.id) && p.id !== excludeId
+      );
+
+      if (candidates.length === 0) {
+        seenPinnedIds = excludeId ? [excludeId] : [];
+        candidates = poems.filter((p) => p.id !== excludeId);
+      }
+
+      const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+      if (!chosen) return null;
+
+      if (!seenPinnedIds.includes(chosen.id)) {
+        seenPinnedIds.push(chosen.id);
+        saveSeenPinnedIds(seenPinnedIds);
+      }
+      return chosen.id;
+    }
+
+    let pinnedPoemId = myAddedPoems.length > 0 ? myAddedPoems[0].id : pickNextUnseenPoemId(null);
+    let visibleCount = 25;
+
+    const pinnedTopSection = document.getElementById("pinnedTopSection");
+    const pinnedForeground = document.getElementById("pinnedForeground");
+    const postsStack = document.getElementById("postsStack");
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+    function rebuildPoemsListFromCloudAndLocal(cloudItems = null) {
+      if (Array.isArray(cloudItems)) {
+        cloudSharedPoems = cloudItems
+          .filter((item) => item && item.body && item.deleted !== true)
+          .map((item) => ({
+            id: String(item.id),
+            title: item.title || "شعر",
+            body: item.body,
+            isUserAdded: true,
+            createdAtMs: item.createdAtMs || Date.now()
+          }));
+        myAddedPoems = [...cloudSharedPoems];
+        saveMyAddedPoems(myAddedPoems);
+      }
+
+      const combinedCustom = [...myAddedPoems];
+      const seenCustomIds = new Set(combinedCustom.map((x) => String(x.id)));
+      const baseFiltered = shuffledBasePoems.filter((x) => !seenCustomIds.has(String(x.id)));
+
+      poems = [...combinedCustom, ...baseFiltered];
+
+      if (combinedCustom.length > 0) {
+        pinnedPoemId = combinedCustom[0].id;
+      } else if (!poems.some((p) => String(p.id) === String(pinnedPoemId))) {
+        pinnedPoemId = pickNextUnseenPoemId(null);
+      }
+    }
+
+    function renderPinnedTop() {
+      const pinned = poems.find((p) => String(p.id) === String(pinnedPoemId));
+      pinnedForeground.innerHTML = "";
+      if (!pinned) return;
+
+      const wrap3d = document.createElement("div");
+      wrap3d.className = "pinned-3d-wrap";
+
+      const titleEl = document.createElement("h2");
+      titleEl.className = "poem-3d-title";
+      titleEl.textContent = pinned.title;
+
+      const bodyEl = document.createElement("p");
+      bodyEl.className = "poem-3d-body";
+      bodyEl.textContent = pinned.body;
+
+      wrap3d.appendChild(titleEl);
+      wrap3d.appendChild(bodyEl);
+      pinnedForeground.appendChild(wrap3d);
+    }
+
+    function renderPoemsList() {
+      const itemsToShow = poems.slice(0, visibleCount);
+      postsStack.innerHTML = "";
+
+      itemsToShow.forEach((poem, idx) => {
+        const entry = document.createElement("article");
+        entry.className = "poem-line-entry";
+
+        const titleEl = document.createElement("h3");
+        titleEl.className = "poem-square-title";
+        titleEl.textContent = poem.title;
+
+        const bodyEl = document.createElement("p");
+        bodyEl.className = "poem-square-body";
+        bodyEl.textContent = poem.body;
+
+        entry.appendChild(titleEl);
+        entry.appendChild(bodyEl);
+        postsStack.appendChild(entry);
+
+        if (idx < itemsToShow.length - 1) {
+          const divider = document.createElement("div");
+          divider.className = "poem-line-separator";
+          postsStack.appendChild(divider);
+        }
+      });
+
+      loadMoreBtn.style.display = visibleCount >= poems.length ? "none" : "inline-block";
+    }
+
+    function renderAll() {
+      renderPinnedTop();
+      renderPoemsList();
+      applyBackgroundTheme(activeThemeIndex);
+      resizeCanvases();
+    }
+
+    window.sherwanApplyCloudPosts = function (cloudItems) {
+      rebuildPoemsListFromCloudAndLocal(cloudItems);
+      renderAll();
+      if (addPoemStep && addPoemStep.style.display !== "none") {
+        renderMyAddedPoemsInDashboard();
+      }
+    };
+
+    const BOOK_GENRES = [
+      "هەمووی",
+      "شعر",
+      "ئەدەبی",
+      "ڕۆمانسی",
+      "بەسەرهات",
+      "کەلتووری",
+      "جیهانی",
+      "کتێبی ڕۆحی",
+      "ئامۆژگاری"
+    ];
+
+    const genreAtmospherePresets = {
+      "هەمووی": {
+        bgSrc: "./bg-1.jpeg",
+        top: "rgba(22, 18, 15, 0.74)",
+        bottom: "rgba(10, 9, 8, 0.94)",
+        cardTop: "rgba(32, 26, 22, 0.84)",
+        cardBottom: "rgba(14, 12, 10, 0.95)",
+        accent: "#f7efe4",
+        sub: "#e8ddd0",
+        border: "rgba(232, 214, 190, 0.42)",
+        borderStrong: "rgba(246, 232, 212, 0.72)",
+        glow: "rgba(225, 200, 168, 0.2)"
+      },
+      "شعر": {
+        bgSrc: "./bg-2.jpeg",
+        top: "rgba(18, 16, 24, 0.74)",
+        bottom: "rgba(9, 8, 13, 0.94)",
+        cardTop: "rgba(28, 24, 38, 0.84)",
+        cardBottom: "rgba(13, 11, 19, 0.95)",
+        accent: "#ece8ff",
+        sub: "#dbd5f5",
+        border: "rgba(196, 186, 240, 0.42)",
+        borderStrong: "rgba(224, 216, 255, 0.72)",
+        glow: "rgba(176, 158, 240, 0.22)"
+      },
+      "ئەدەبی": {
+        bgSrc: "./bg-3.jpeg",
+        top: "rgba(24, 18, 12, 0.72)",
+        bottom: "rgba(12, 9, 6, 0.93)",
+        cardTop: "rgba(38, 28, 19, 0.84)",
+        cardBottom: "rgba(17, 12, 8, 0.95)",
+        accent: "#f8e8c8",
+        sub: "#ead6b2",
+        border: "rgba(232, 196, 136, 0.42)",
+        borderStrong: "rgba(248, 220, 168, 0.72)",
+        glow: "rgba(228, 182, 106, 0.22)"
+      },
+      "ڕۆمانسی": {
+        bgSrc: "./bg-4.jpeg",
+        top: "rgba(34, 14, 20, 0.70)",
+        bottom: "rgba(16, 7, 10, 0.92)",
+        cardTop: "rgba(48, 18, 28, 0.82)",
+        cardBottom: "rgba(22, 8, 13, 0.94)",
+        accent: "#ffdce5",
+        sub: "#f8c6d4",
+        border: "rgba(255, 168, 194, 0.44)",
+        borderStrong: "rgba(255, 208, 222, 0.76)",
+        glow: "rgba(255, 138, 174, 0.25)"
+      },
+      "بەسەرهات": {
+        bgSrc: "./bg-6.jpeg",
+        top: "rgba(28, 17, 8, 0.72)",
+        bottom: "rgba(13, 8, 4, 0.93)",
+        cardTop: "rgba(42, 25, 11, 0.84)",
+        cardBottom: "rgba(18, 11, 5, 0.95)",
+        accent: "#ffe2b8",
+        sub: "#f3d2a4",
+        border: "rgba(245, 184, 102, 0.42)",
+        borderStrong: "rgba(255, 212, 148, 0.72)",
+        glow: "rgba(242, 168, 74, 0.22)"
+      },
+      "کەلتووری": {
+        bgSrc: "./bg-1.jpeg",
+        top: "rgba(26, 19, 10, 0.72)",
+        bottom: "rgba(12, 9, 5, 0.93)",
+        cardTop: "rgba(40, 29, 15, 0.84)",
+        cardBottom: "rgba(17, 12, 6, 0.95)",
+        accent: "#f7e3bd",
+        sub: "#e6cfa4",
+        border: "rgba(226, 186, 118, 0.42)",
+        borderStrong: "rgba(246, 216, 158, 0.72)",
+        glow: "rgba(218, 172, 92, 0.22)"
+      },
+      "جیهانی": {
+        bgSrc: "./bg-5.jpeg",
+        top: "rgba(11, 20, 30, 0.72)",
+        bottom: "rgba(6, 11, 17, 0.93)",
+        cardTop: "rgba(17, 31, 46, 0.84)",
+        cardBottom: "rgba(8, 15, 23, 0.95)",
+        accent: "#d6ecff",
+        sub: "#bddcf8",
+        border: "rgba(148, 202, 248, 0.42)",
+        borderStrong: "rgba(196, 228, 255, 0.74)",
+        glow: "rgba(128, 190, 245, 0.22)"
+      },
+      "کتێبی ڕۆحی": {
+        bgSrc: "./bg-5.jpeg",
+        top: "rgba(12, 24, 24, 0.72)",
+        bottom: "rgba(6, 12, 13, 0.93)",
+        cardTop: "rgba(18, 36, 36, 0.84)",
+        cardBottom: "rgba(8, 17, 17, 0.95)",
+        accent: "#d5f5f0",
+        sub: "#bce5de",
+        border: "rgba(142, 224, 212, 0.42)",
+        borderStrong: "rgba(190, 245, 236, 0.74)",
+        glow: "rgba(116, 212, 198, 0.22)"
+      },
+      "ئامۆژگاری": {
+        bgSrc: "./bg-3.jpeg",
+        top: "rgba(22, 19, 13, 0.72)",
+        bottom: "rgba(10, 9, 6, 0.93)",
+        cardTop: "rgba(34, 29, 20, 0.84)",
+        cardBottom: "rgba(15, 13, 9, 0.95)",
+        accent: "#f5ead2",
+        sub: "#e3d4b6",
+        border: "rgba(220, 196, 148, 0.42)",
+        borderStrong: "rgba(244, 224, 182, 0.72)",
+        glow: "rgba(212, 182, 126, 0.2)"
+      }
+    };
+
+    const libraryBooks = [
+      {
+        id: "bk-sher-nali",
+        genre: "شعر",
+        author: "نالی (مەلا خدری ئەحمەدی شاوەیسی میکایلی)",
+        bookBg: "./bg-2.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(18, 15, 28, 0.86), rgba(9, 8, 15, 0.95))",
+        title: "دیوانی نالی — هەڵبژاردەی غەزەل و قەسیدەکان",
+        excerpt: "شاکارە کلاسیکییەکانی ئەدەبی کوردی لەسەر عەشق، عیرفان، شارەزوور و هونەری بەرزی زمانی کوردی لە دیوانی نالیدا.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: غەزەلی عەشق و سۆزی ڕۆحی",
+            text: "نالی وەک پایەیەکی سەرەکیی قوتابخانەی شیعری بابان، زمانیی کوردیی گەیاندە لوتکەی ڕەوانبێژی و قووڵیی مانا.\nلە غەزەلەکانیدا عەشق تەنها هەستێکی سادە نییە، بەڵکو گەشتێکی فەلسەفی و ڕۆحییە کە مرۆڤ لەگەڵ جوانی و حەقیقەتدا ئاشنا دەکات.\n\n«شەوی یەڵدایە یا دەیجوورە ئەمشەو\nکە دیدەم دوور لە تۆ بێ نوورە ئەمشەو»\n\nئەم دێڕانە وێنەیەکی زیندوون لە چاوەڕوانی و ئەو تاریکییەی کە دووریی یار دروستی دەکات، کە تێیدا تەنها یاد و خەیاڵ دەبنە چرا بۆ ڕۆشنکردنەوەی دڵ.\n\nنالی بە هونەرێکی ورد توانیویەتی هەستی مرۆیی و ئەندێشەی قووڵ لە قاڵبی عەرووز و مۆسیقای وشەدا کۆ بکاتەوە."
+          },
+          {
+            heading: "بەشی دووەم: نامەکەی بۆ سالم و سۆزی نیشتمان",
+            text: "کاتێک نالی لە شامەوە نامە شیعرییە بەناوبانگەکەی بۆ سالم دەنووسێت، هەموو کۆڵان و کانی و گردەکانی سلێمانی بە وشە دەژێنێتەوە.\nلەم قەسیدەیەدا خۆشەویستیی خاک و هاوڕێیەتی تێکەڵ بە هەناسەی غەریبی دەبن.\n\n«قوربانی تۆزی ڕێگەتم ئەی بادی خۆش مروور\nئەی پەیکی شارەزا بە هەموو شاری شارەزوور»\n\nهەر بەیتێکی ئەم نامەیە تابلۆیەکی مێژوویی و هەستبزوێنە کە تا ئەمڕۆش لە یادەوەریی هەموو خوێنەرێکی کورددا بە زیندوویی ماوەتەوە و وەڵامەکەی سالمیش تەواوکەری ئەم ئاوازە ئەدەبییە بێوێنەیەیە."
+          },
+          {
+            heading: "بەشی سێیەم: جوانیی وێنەسازی و مۆسیقای وشە",
+            text: "لە دیوانی نالیدا هەر وشەیەک لە شوێنی خۆیدا بە وردی دانراوە و مۆسیقایەکی ناوەکی دەبەخشێت بە دێڕەکان.\nنالی یاری بە واتای وشەکان دەکات (جیناس و تەوریە) بە شێوەیەک کە هەر جارێک خوێنەر بەیتێک دەخوێنێتەوە، مانایەکی تازە و قووڵتر دەدۆزێتەوە.\n\nخوێنەر کاتێک بە هێمنی لاپەڕەکانی ئەم دیوانە هەڵدەداتەوە، هەست دەکات لە ناو کۆڕێکی ئەدەبیی قووڵدایە کە تێیدا وشەکان هەم ئاوێنەی دڵن و هەم گەنجینەی زمانن."
+          },
+          {
+            heading: "بەشی چوارەم: فەلسەفەی صەبر و وەفا لە دیوانەکەدا",
+            text: "لە گەلێک لە غەزەلەکانیدا نالی باس لەوە دەکات کە عەشقی ڕاستەقینە بە ئارامگرتن و وەفاداری تاقی دەکرێتەوە.\nدڵی عاشق لای نالی وەک گەوهەرێکە کە هەرچەندە دووری و ئازار بیپێچێتەوە، بەڵام درەوشانەوەی خۆی لە دەست نادات و هەمیشە ڕووی لە ڕووناکییە."
+          }
+        ]
+      },
+      {
+        id: "bk-sher-mahwi",
+        genre: "شعر",
+        author: "مەحوی (مەلا محەمەدی کوڕی مەلا عوسمانی باڵخی)",
+        bookBg: "./bg-1.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(16, 16, 20, 0.86), rgba(8, 8, 10, 0.95))",
+        title: "دیوانی مەحوی — لە تەسەوفەوە بۆ قووڵایی دڵ",
+        excerpt: "گەشتێک بە ناو جیهانی عیرفانی، تێڕامان لە بوون و شیعرە بەرزەکانی مەحویدا.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: گەڕان بەدوای حەقیقەتدا",
+            text: "مەحوی لە دیوانەکەیدا بە زمانێکی پڕ لە هێما و قووڵایی باس لە پەیوەندیی مرۆڤ و خالق و مانای ڕاستەقینەی ژیان دەکات.\nلە لای مەحوی دڵ مەنزڵگای عەشقی پاکە و هەر کەسێک دڵی لە غەش و دووڕوویی پاک بکاتەوە، ڕووناکیی مەعریفەت دەبینێت.\n\n«بە نوری بادە کەشفی زوڵمەتی تەقوا نەکەم چ بکەم!\nبە شەمعێکی وەها چاری شەوێکی وا نەکەم چ بکەم!»\n\nئەم دێڕە دەرگای تێگەیشتن لە عیرفانی مەحوی دەکاتەوە کە تێیدا ڕواڵەتپەرستی ڕەت دەکرێتەوە و جەوهەری پاکیی دڵ بەرز دەنرخێنرێت."
+          },
+          {
+            heading: "بەشی دووەم: بێدەنگی و عوزلەت لە شیعری مەحویدا",
+            text: "خەڵوەت و دوورکەوتنەوە لە جەنجاڵیی دنیا لای مەحوی مانای بێهیوایی نییە، بەڵکو گەڕانەوەیە بۆ ناوەوەی مرۆڤ و ناسینی خود.\nهەر دێڕێکی دیوانەکەی خوێنەر بانگهێشت دەکات بۆ وەستان، بیرکردنەوە و هێورکردنەوەی دەروون لە ئاست ئاڵۆزییەکانی ڕۆژگاردا.\n\n«لە بێکەسیدا کەسێکم نەدی بە غەیری خەیاڵ\nلە گۆشەی خانەقاکەمدا هەموو شەو هاودەمی من بوو»"
+          },
+          {
+            heading: "بەشی سێیەم: ئاوێنەی دڵ و ناسینی مرۆڤ",
+            text: "مەحوی مرۆڤ بە گەورەترین نهێنیی بوون دادەنێت و پێی وایە ئەگەر مرۆڤ ئاوێنەی دڵی خۆی بسڕێتەوە، هەموو جوانییەکانی گەردوون لە ناو خۆیدا دەبینێت.\nشیعرەکانی وەک دەرمانێکی هێورکەرەوەن بۆ ڕۆحی ماندوو و سەرگەردان."
+          }
+        ]
+      },
+      {
+        id: "bk-sher-hemin",
+        genre: "شعر",
+        author: "هێمن موکریانی (سەید محەمەدئەمینی شێخولئیسلامی)",
+        bookBg: "./bg-3.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(24, 18, 12, 0.86), rgba(11, 8, 5, 0.95))",
+        title: "تاریک و ڕوون — کۆمەڵە شیعر",
+        excerpt: "دیوانە بەناوبانگەکەی مامۆستا هێمن کە پڕە لە سۆزی نیشتمان، جوانیی سروشت، ئازادی و ناسکیی هەست.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: ناڵەی جودایی و هەستی شاعیر",
+            text: "لە «تاریک و ڕوون»دا مامۆستا هێمن بە زمانێکی ڕەوان، شیرین و نزیک لە دڵی خەڵک، ئازار و هیواکانی مرۆڤ دەگێڕێتەوە.\nشیعرەکانی هەم گۆرانیی عەشق و جوانین و هەم دەنگی ویژدانێکی بەئاگان.\n\n«ساقیا وا بادەوە وا بادەوە\nڕوو لە لای ئێمە بکە جامی بادەوە»\n\nئەم قەسیدە نەمرە تێکەڵەیەکە لە غەریبی، سۆز، ئازارەکانی ژیان و خۆشەویستیی بێسنوور بۆ جوانی و ئازادی."
+          },
+          {
+            heading: "بەشی دووەم: سروشت و جوانیی کوردستان لە چاوی هێمندا",
+            text: "هێمن کاتێک وەسفی بەهار، کوێستان، کانی و شەماڵی بەیانی دەکات، تابلۆیەکی زیندوو لە بەرچاوی خوێنەر دەنەخشێنێت.\nسادەیی وشەکانی و قووڵیی سۆزەکەی وای کردووە ئەم کتێبە ببێتە هاوڕێی هەمیشەیی خوێنەرانی شیعر و لە زۆربەی گۆرانییە ڕەسەنەکاندا بگوترێتەوە."
+          },
+          {
+            heading: "بەشی سێیەم: جوانیی عەشقی پاک و مرۆڤدۆستی",
+            text: "لای هێمن عەشق هێزێکی دروستکەرە کە مرۆڤ ناسک و میهرەبان دەکات؛ ئەو بە ڕێز و شکۆوە باس لە مرۆڤ و خۆشەویستی دەکات و هەر دێڕێکی پڕە لە گەرمیی دڵ."
+          }
+        ]
+      },
+      {
+        id: "bk-sher-sherko",
+        genre: "شعر",
+        author: "شێرکۆ بێکەس",
+        bookBg: "./bg-5.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(12, 20, 30, 0.86), rgba(6, 10, 16, 0.95))",
+        title: "دەربەندی پەپوولە",
+        excerpt: "یەکێک لە شاکارە شیعرییە نوێیەکانی شێرکۆ بێکەس کە تێیدا سروشت، مرۆڤ و مێژوو بە زمانێکی وێنەیی دەدوێن.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: گەشت بە ناو وێنە شیعرییەکاندا",
+            text: "لە «دەربەندی پەپوولە»دا هەموو شتێک دەبێتە زمان و هەست؛ دار، بەرد، با، پەپوولە و باران پێکەوە چیرۆکی مرۆڤ دەگێڕنەوە.\nشێرکۆ بێکەس بە خەیاڵێکی فراوان وشەکان وەک ڕەنگ بەسەر تابلۆی شیعردا دەڕژێنێت و سنووری نێوان سروشت و دڵی مرۆڤ دەسڕێتەوە."
+          },
+          {
+            heading: "بەشی دووەم: دەنگی ئازادی و جوانی",
+            text: "ئەم بەرهەمە پیشانی دەدات کە چۆن شیعری نوێ دەتوانێت هەم هەڵگری ئازارە گەورەکان بێت و هەم پڕ بێت لە ناسکیی ژیان و هیوا بۆ داهاتوو.\nهەر بڕگەیەکی کتێبەکە وەک گرتەیەکی سینەمایی لە مێشکی خوێنەردا دەمێنێتەوە."
+          },
+          {
+            heading: "بەشی سێیەم: پەپوولە وەک هێمای ناسکی و ڕووناکی",
+            text: "لە سەرانسەری ئەم دەقە شیعرییەدا پەپوولە هێمای جوانییەکی بچووک بەڵام نەمرە کە تەنانەت لە ناو گەردەلوولیشدا باڵەکانی بەرەو ڕووناکی دەکاتەوە."
+          }
+        ]
+      },
+      {
+        id: "bk-sher-goran",
+        genre: "شعر",
+        author: "گۆران (عەبدوڵڵا سلێمان بەگ)",
+        bookBg: "./bg-4.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(28, 16, 20, 0.86), rgba(12, 7, 9, 0.95))",
+        title: "بەهەشت و یادگار — شیعری نوێ و مۆسیقای سروشت",
+        excerpt: "دیوانە ناوازەکەی مامۆستا گۆران، پێشەنگی شیعری نوێی کوردی، پڕ لە مۆسیقای وشە، سروشت و جوانی.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: گەشت لە هەورامان و سەیرانی سروشت",
+            text: "مامۆستا گۆران شاعیری سروشت و جوانییە؛ کاتێک باسی پاییز، بەهار، شەپۆلی ئاو و چیاکانی هەورامان دەکات، وشەکان دەبنە تابلۆیەکی زیندوو.\n\n«کۆمەڵە شاخێک سەخت و گەردنکەش\nئاسمانی شینی گرتووەتە باوەش»\n\nلەم دیوانەدا کێشی خۆماڵیی کوردی (بڕگەیی) بە جوانترین شێوە زیندوو کراوەتەوە و مۆسیقایەکی شیرینی بە شیعری کوردی بەخشیوە."
+          },
+          {
+            heading: "بەشی دووەم: جوانی لە هەموو شتێکدا",
+            text: "گۆران باوەڕی وابوو کە جوانی تەنها لە شتە گەورەکاندا نییە، بەڵکو لە گەڵایەکی وەریودا، لە زەردەخەنەیەکدا و لە چرکەیەکی بێدەنگیدا خۆی حەشار داوە.\nخوێندنەوەی «بەهەشت و یادگار» هەستێکی ئارام و شاعیرانە دەبەخشێت بە خوێنەر."
+          }
+        ]
+      },
+      {
+        id: "bk-adabi-piramerd",
+        genre: "ئەدەبی",
+        author: "پیرەمێرد (تۆفیق مەحموود هەمزە)",
+        bookBg: "./bg-3.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(28, 20, 12, 0.86), rgba(12, 9, 5, 0.95))",
+        title: "پەندەکانی پیرەمێرد — گەنجینەی ئەدەب و دانایی",
+        excerpt: "هەڵبژاردەیەک لە پەندە شیعری و وتە ئەدەبییەکانی پیرەمێرد کە وانەی ژیان و ڕەوشت بەرزییان تێدایە.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: پەند و ئەزموونی ڕۆژگار",
+            text: "پیرەمێرد توانی پەندە ڕەسەنەکانی ناو کۆمەڵگەی کوردی بخاتە ناو قاڵبێکی شیعریی ڕەوان و جوانەوە تا لە بیر نەچنەوە.\nهەر پەندێکی پیرەمێرد ئەزموونی سەدان ساڵەی ژیان لە دوو دێڕدا کۆ دەکاتەوە.\n\n«بە قسەی خۆش مار لە کون دێتە دەر\nبە قسەی ناخۆش دەبێ بە ئاگر»\n\nئەم وتە زێڕینانە نیشانی دەدەن کە چۆن زمانی شیرین و ڕەوشتی بەرز دەتوانن دڵەکان بەیەکەوە ببەستنەوە."
+          },
+          {
+            heading: "بەشی دووەم: بەهای کار، ڕاستگۆیی و ئارامی",
+            text: "لە بەرهەمە ئەدەبییەکانی پیرەمێرددا هاندان بۆ زانست، پاراستنی کەرامەت، دوورکەوتنەوە لە تەمەڵی و ڕێزگرتن لە مرۆڤ ڕەنگدانەوەیەکی بەرچاویان هەیە.\nخوێندنەوەی ئەم پەندانە هەم چێژی ئەدەبی دەبەخشێت و هەم ڕێنمایی کرداری بۆ ژیانی ڕۆژانە."
+          },
+          {
+            heading: "بەشی سێیەم: نەورۆز و زیندووکردنەوەی فەرهەنگ",
+            text: "پیرەمێرد تەنها نووسەرێک نەبوو، بەڵکو قوتابخانەیەکی فەرهەنگی بوو کە لە ڕێگەی ڕۆژنامەی ژین و شیعرەکانییەوە گیانی هیوا و خۆشەویستیی نیشتمانی لە ناو دڵی خەڵکدا زیندوو کردەوە."
+          }
+        ]
+      },
+      {
+        id: "bk-adabi-hezhar",
+        genre: "ئەدەبی",
+        author: "هەژار موکریانی (عەبدولڕەحمانی شەرەفکەندی)",
+        bookBg: "./bg-6.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(30, 19, 9, 0.86), rgba(13, 8, 4, 0.95))",
+        title: "چێشتی مجێور — یادداشت و ئەدەبیاتی ژیان",
+        excerpt: "یەکێک لە بەناوبانگترین کتێبە ئەدەبی و یادەوەرییەکانی زمانی کوردی بە قەڵەمی مامۆستا هەژار.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: زمانێکی پڕ لە تام و ڕەسەنایەتی",
+            text: "مامۆستا هەژار لە «چێشتی مجێور»دا بە زمانێکی شیرین، پڕ لە پەند و تەنز و ڕاستگۆیی، چیرۆکی ژیان، سەفەرەکان و کەسایەتییە ئەدەبییەکانی سەردەمی خۆی دەگێڕێتەوە.\nئەم کتێبە قوتابخانەیەکە بۆ فێربوونی دەوڵەمەندیی وشە و زاراوەی کوردی و هونەری گێڕانەوەی ڕاستگۆیانە."
+          },
+          {
+            heading: "بەشی دووەم: خۆڕاگری و خزمەتکردنی زمان",
+            text: "سەرەڕای هەموو سەختییەکانی ڕۆژگار، مامۆستا هەژار هەموو ژیانی خۆی بۆ نووسین، وەرگێڕان و پاراستنی زمانی کوردی تەرخان کرد.\nخوێنەر لە هەر لاپەڕەیەکدا هەست بە گەرمیی گێڕانەوە، قسەی خۆش و دڵسۆزیی نووسەر دەکات."
+          },
+          {
+            heading: "بەشی سێیەم: وانەکانی گەشت و ناسینی مرۆڤ",
+            text: "لە گەشتەکانیدا بۆ وڵاتانی جیاواز، مامۆستا هەژار بە چاوێکی ورد سەیری ژیانی خەڵک دەکات و بە ئەزموونێکی دەوڵەمەندەوە باس لە بەهای ئازادی و زانست دەکات."
+          }
+        ]
+      },
+      {
+        id: "bk-adabi-nuri",
+        genre: "ئەدەبی",
+        author: "عەلائەدین سەجادی",
+        bookBg: "./bg-1.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(20, 18, 15, 0.86), rgba(10, 9, 8, 0.95))",
+        title: "ڕشتەی مرواری — کۆمەڵە بەسەرهات و نەستەق",
+        excerpt: "بەرهەمێکی ئەدەبیی ناوازە کە سەدان قسەی نەستەق، بەسەرهاتی خۆش و ئامۆژگاریی کوردەواری لەخۆ دەگرێت.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: زەردەخەنە و دانایی لە قسەی نەستەقدا",
+            text: "مامۆستا عەلائەدین سەجادی لە «ڕشتەی مرواری»دا بە شێوازێکی زۆر جوان و ڕێکخراو قسە خۆش و پڕماناکانی ناو کۆڕی کوردەواری کۆ کردووەتەوە.\nهەر چیرۆکێک لە پشت زەردەخەنەیەکەوە وانەیەکی کۆمەڵایەتی و ئەخلاقیی قووڵی هەڵگرتووە."
+          },
+          {
+            heading: "بەشی دووەم: هونەری گێڕانەوەی کورت",
+            text: "ئەم کتێبە بۆ خوێنەر زۆر ئاسوودەبەخشە چونکە هەر پەرەگرافێکی تەواوکەری بیرۆکەیەکە و مرۆڤ لە جەنجاڵیی ڕۆژانە دەباتە ناو کەشێکی گەرم و دۆستانە."
+          },
+          {
+            heading: "بەشی سێیەم: پاراستنی ئەدەبی زارەکی",
+            text: "بە هۆی ئەم بەرهەمەوە بەشێکی گەورە لە گێڕانەوە و نوکتە و حیکمەتی کۆمەڵگەی کوردی لە فەوتان ڕزگاری بوو و بوو بە سەرچاوەیەکی بەنرخ بۆ نەوەکانی داهاتوو."
+          }
+        ]
+      },
+      {
+        id: "bk-adabi-pirbal",
+        genre: "ئەدەبی",
+        author: "فەرهاد پیرباڵ",
+        bookBg: "./bg-2.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(22, 18, 26, 0.86), rgba(10, 8, 13, 0.95))",
+        title: "سانتیاگۆ دی کۆمپۆستێلا — گەشت و یادەوەریی ئەدەبی",
+        excerpt: "بەرهەمێکی ئەدەبی و هزری دەربارەی سەفەر، غەریبی، هونەر و گەڕان بەدوای مانای ژیاندا.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: سەفەر وەک دۆزینەوەی خود",
+            text: "لەم کتێبە ئەدەبییەدا سەفەر تەنها گۆڕینی شوێن نییە، بەڵکو گەشتێکە بە ناو یادەوەری، مێژوو و هەستی مرۆڤدا.\nنووسەر بە شێوازێکی زیندوو دیمەنەکانی ڕێگا و گفتوگۆ مرۆییەکان دەگێڕێتەوە."
+          },
+          {
+            heading: "بەشی دووەم: هونەر و پرسیارەکانی بوون",
+            text: "لە نێوان لاپەڕەکاندا خوێنەر بەر پرسیارە قووڵەکانی مرۆڤ دەربارەی هاوڕێیەتی، نیشتمان و بەهای هونەر دەکەوێت."
+          }
+        ]
+      },
+      {
+        id: "bk-rom-gibran",
+        genre: "ڕۆمانسی",
+        author: "جبران خەلیل جبران",
+        bookBg: "./bg-4.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(38, 15, 22, 0.85), rgba(16, 7, 10, 0.95))",
+        title: "باڵە شکاوەکان (الأجنحة المتكسرة)",
+        excerpt: "ڕۆمانێکی ڕۆمانسی و شاعیرانەی جیهانی دەربارەی یەکەم عەشقی پاک، وەفا و قوربانیدان.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: یەکەم دیدار و بێدەنگیی دڵ",
+            text: "جبران خەلیل جبران لە «باڵە شکاوەکان»دا چیرۆکی عەشقێکی پاک دەگێڕێتەوە کە لە یەکەم نیگاوە وەک تیشکی بەیانی دێتە ناو ڕۆحەوە.\nلەم ڕۆمانەدا خۆشەویستی تەنها هەستێکی تێپەڕ نییە، بەڵکو ڕۆشناییەکە کە مرۆڤ بەرەو پاکی و گەورەیی ڕۆح دەبات.\n\n«خۆشەویستی تەنها هێزێکە کە دووری نایبڕێت و کات نایسڕێتەوە.»"
+          },
+          {
+            heading: "بەشی دووەم: یادەوەرییەک کە هەرگیز نامرێت",
+            text: "هەرچەندە بەربەستەکانی کۆمەڵگە و چارەنووس ڕێگا لە گەیشتنی جەستەکان دەگرن، بەڵام جبران نیشانی دەدات کە عەشقی ڕاستەقینە لە سەرووی کات و شوێنەوە دەمێنێتەوە.\nزمانە شاعیرانەکەی کتێبەکە هەستێکی ناسک و قووڵ بە خوێنەر دەبەخشێت."
+          },
+          {
+            heading: "بەشی سێیەم: جوانیی دڵپاکی و وەفا",
+            text: "سەلما و جبران دەبنە هێمای دوو ڕۆح کە بە بێدەنگی یەکتریان خۆش دەوێت و ڕێز لە کەرامەت و پاکیی هەستەکانیان دەگرن تا دوا هەناسە."
+          }
+        ]
+      },
+      {
+        id: "bk-rom-bekas",
+        genre: "ڕۆمانسی",
+        author: "بەختیار عەلی",
+        bookBg: "./bg-6.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(36, 18, 12, 0.85), rgba(15, 8, 5, 0.95))",
+        title: "دواهەمین هەناری دونیا — سۆز و چاوەڕوانی",
+        excerpt: "تێڕامانێک لە هێزی خۆشەویستی، گەڕان بەدوای ئازیزاندا و ئەو سۆزەی مرۆڤ لە ناو سەختترین ڕۆژەکاندا دەهێڵێتەوە.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: گەڕان بەدوای جوانی و وەفادا",
+            text: "لەم شاکارە ڕۆمانییەدا خۆشەویستی وەک هێزێکی زیندوو دەردەکەوێت کە مرۆڤ هان دەدات بە دوای جوانی، ئاشتی و دیداری ئازیزاندا بگەڕێت.\nهەر دیمەنێکی پڕە لە وێنەی شاعیرانە و هەستی قووڵی مرۆیی."
+          },
+          {
+            heading: "بەشی دووەم: هیوا وەک دوا هەنار",
+            text: "کتێبەکە پەیامێکی ڕوون دەگەیەنێت: تەنانەت لە دوای هەموو گەردەلوولەکانیش، هێشتا چیرۆکێک، سۆزێک و هیوایەک ماوە کە شایەنی پاراستن بێت."
+          },
+          {
+            heading: "بەشی سێیەم: یادەوەری و زمانە شیعرییەکەی ڕۆمانەکە",
+            text: "بەختیار عەلی بە زمانێکی پڕ لە مۆسیقا و هێما، خۆشەویستی دەکاتە قەڵغانێک لە بەرانبەر تەنیایی و لەبیرچوونەوەدا."
+          }
+        ]
+      },
+      {
+        id: "bk-rom-goethe",
+        genre: "ڕۆمانسی",
+        author: "یۆهان ڤۆلفگانگ فۆن گۆتە",
+        bookBg: "./bg-4.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(34, 14, 20, 0.85), rgba(14, 6, 9, 0.95))",
+        title: "ئازارەکانی ڤێرتەری لاو",
+        excerpt: "ڕۆمانە نامەییە بەناوبانگەکەی گۆتە کە بە قووڵترین شێوە هەستی عەشق، تەنیایی و ناسکیی ڕۆحی مرۆڤ دەخاتە ڕوو.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: نامەکانی دڵێکی هەستیار",
+            text: "گۆتە لە ڕێگەی نامەکانی ڤێرتەرەوە دەرگای ناوەوەی دڵی مرۆڤێکی عاشق و هونەرمەند دەکاتەوە.\nهەر نامەیەک وێنەی ئەو گۆڕانکارییانەیە کە عەشق لە نیگای مرۆڤ بۆ سروشت و ژیان دروستی دەکات."
+          },
+          {
+            heading: "بەشی دووەم: قووڵایی هەست و بێدەنگی",
+            text: "ئەم بەرهەمە یەکێکە لە دیارترین شاکارەکانی ئەدەبی ڕۆمانسیی جیهانی کە تا ئەمڕۆش بە هۆی ڕاستگۆیی هەستەکانییەوە خوێنەر سەرسام دەکات."
+          }
+        ]
+      },
+      {
+        id: "bk-rom-jane",
+        genre: "ڕۆمانسی",
+        author: "جەین ئۆستن",
+        bookBg: "./bg-3.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(28, 18, 16, 0.85), rgba(13, 8, 7, 0.95))",
+        title: "شانازی و پێشداوەری (Pride and Prejudice)",
+        excerpt: "ڕۆمانێکی کلاسیکیی جیهانی دەربارەی تێگەیشتنی ڕاستەقینە، ڕێزگرتن و گەشەکردنی خۆشەویستی لە نێوان دوو دڵدا.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: یەکەم دیداری ئێلیزابێس و دارسی",
+            text: "جەین ئۆستن بە زیرەکی و زمانێکی شیرین نیشانی دەدات کە چۆن یەکەم بڕیاری خێرا دەکرێت پەردە بخاتە سەر ڕاستییەکان.\nلە سەرەتادا شانازی و پێشداوەری مەودایەک لە نێوان دوو کەسایەتییە سەرەکییەکەدا دروست دەکەن."
+          },
+          {
+            heading: "بەشی دووەم: ناسینی جەوهەری مرۆڤ",
+            text: "بە تێپەڕبوونی ڕووداوەکان، هەردووکیان فێر دەبن کە خۆشەویستیی ڕاستەقینە لەسەر بنەمای ڕاستگۆیی، خاکیبوون و ڕێزگرتنی یەکتر بنیاد دەنرێت."
+          }
+        ]
+      },
+      {
+        id: "bk-story-ibrahim",
+        genre: "بەسەرهات",
+        author: "ئیبراهیم ئەحمەد",
+        bookBg: "./bg-6.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(32, 20, 9, 0.86), rgba(14, 9, 4, 0.95))",
+        title: "ژانی گەل — بەسەرهات و خۆڕاگری",
+        excerpt: "یەکێک لە بەردی بناغەکانی ڕۆمان و بەسەرهاتی کوردی کە چیرۆکی قوربانیدان، خێزان و خۆڕاگری دەگێڕێتەوە.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: چاوەڕوانی و سەختیی ڕۆژگار",
+            text: "مامۆستا ئیبراهیم ئەحمەد لە «ژانی گەل»دا بە شێوازێکی زۆر کاریگەر و ڕاستگۆیانە بەسەرهاتی جوامێر دەگێڕێتەوە کە لە نێوان ئەرکی خێزان و سەختییەکانی ژیاندا هەنگاو دەنێت.\nهەر دیمەنێکی کتێبەکە پڕە لە هەستی مرۆیی، دڵسۆزی و وەفا."
+          },
+          {
+            heading: "بەشی دووەم: لەدایکبوونی هیوا لە ناو ئازاردا",
+            text: "ئەم بەرهەمە پیشانی دەدات کە چۆن لە ناو تاریکترین ساتەکانیشدا، هیوا بە داهاتوو و خۆشەویستی بۆ ژیان وەک چرا دەمێنێتەوە.\nلەدایکبوونی منداڵەکە لە کۆتاییدا هێمای بەردەوامیی ژیان و ئومێدە."
+          },
+          {
+            heading: "بەشی سێیەم: پێگەی ژانی گەل لە ئەدەبی کوردیدا",
+            text: "ئەم کتێبە توانی بە زمانێکی سادە و نزیک لە دڵی هەموو خوێنەرێک، ئازار و خەونەکانی مرۆڤی کورد بە جیهان بناسێنێت."
+          }
+        ]
+      },
+      {
+        id: "bk-story-hemingway",
+        genre: "بەسەرهات",
+        author: "ئێرنست هێمینگوەی",
+        bookBg: "./bg-5.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(12, 22, 34, 0.86), rgba(6, 11, 18, 0.95))",
+        title: "پیرەمێرد و دەریا",
+        excerpt: "بەسەرهاتی نەمر و پڕ لە ئیرادەی ماسیگرێکی بەتەمەن لە ناو قووڵایی دەریادا — براوەی خەڵاتی نۆبڵ.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: گەشت بەرەو قووڵایی دەریا",
+            text: "سانتیاگۆ، ماسیگرە بەتەمەنەکە، دوای هەشتا و چوار ڕۆژ بێ ماسیگرتن، بێهیوا نابێت و بەیانییەکی زوو بە بەلەمە بچووکەکەی بەرەو قووڵایی دەریا دەڕوات.\nهێمینگوەی بە زمانێکی سادە بەڵام زۆر قووڵ، ئازایەتی و پشوودرێژیی مرۆڤ وێنا دەکات."
+          },
+          {
+            heading: "بەشی دووەم: ئیرادەی مرۆڤ لە بەرانبەر شەپۆلەکاندا",
+            text: "لە ناوەڕاستی دەریادا سانتیاگۆ فێرمان دەکات کە مرۆڤ دەکرێت ماندوو بێت بەڵام هەرگیز تێکناشکێت ئەگەر ئیرادە و کەرامەتی خۆی بپارێزێت.\nکتێبێکی کورت بەڵام پڕ لە هێز و ئارامی بۆ خوێنەر."
+          },
+          {
+            heading: "بەشی سێیەم: گەڕانەوە بۆ کەنار و هاوڕێیەتیی مانۆلین",
+            text: "کاتێک سانتیاگۆ دەگەڕێتەوە بۆ کەنار، وەفا و ڕێزی کوڕە گەنجەکە (مانۆلین) نیشانی دەدات کە سەرکەوتنی ڕاستەقینە لە گەورەیی ڕۆح و کۆڵنەداندایە."
+          }
+        ]
+      },
+      {
+        id: "bk-story-hussein",
+        genre: "بەسەرهات",
+        author: "حوسێن عارف",
+        bookBg: "./bg-3.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(26, 19, 11, 0.86), rgba(12, 8, 5, 0.95))",
+        title: "شار — بەسەرهاتی کۆڵان و مرۆڤەکان",
+        excerpt: "بەسەرهاتێکی کۆمەڵایەتیی دەوڵەمەند دەربارەی ژیانی خەڵک، هاوڕێیەتی و یادەوەرییەکانی ناو شار.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: سیمای گەڕەک و پەیوەندیی مرۆڤەکان",
+            text: "حوسێن عارف بە وردبینی و زمانێکی پاراو ژیانی ڕۆژانەی خەڵک، دڵسۆزیی دراوسێکان و گۆڕانکارییەکانی کۆمەڵگە دەگێڕێتەوە.\nخوێنەر هەست دەکات لە ناو کۆڵانەکاندا لەگەڵ کەسایەتییەکان دەژی."
+          },
+          {
+            heading: "بەشی دووەم: یادەوەری و گەشەی کۆمەڵایەتی",
+            text: "ئەم بەرهەمە وێنەیەکی ڕاستگۆیانەی قۆناغێکی گرنگی ژیانی شار و پەیوەندییە گەرمەکانی ناو خێزانەکان تۆمار دەکات."
+          }
+        ]
+      },
+      {
+        id: "bk-story-sherzad",
+        genre: "بەسەرهات",
+        author: "شێرزاد حەسەن",
+        bookBg: "./bg-1.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(20, 18, 16, 0.86), rgba(9, 8, 7, 0.95))",
+        title: "حەسار و سەگەکانی باوکم — چیرۆک و دەروونناسی",
+        excerpt: "چیرۆکێکی قووڵ و کاریگەر دەربارەی خێزان، ئازادیی تاک و پەیوەندیی نێوان نەوەکان.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: دیواری حەسار و خەونی کرانەوە",
+            text: "شێرزاد حەسەن بە زمانێکی هونەریی بەرز و قووڵاییەکی دەروونییەوە چیرۆکی خێزانێک دەگێڕێتەوە کە لە پشت دیوارە بەرزەکاندا بە دوای ئازادی و تێگەیشتندا دەگەڕێن."
+          },
+          {
+            heading: "بەشی دووەم: دەنگی گۆڕانکاری و میهرەبانی",
+            text: "ئەم بەسەرهاتە هانی خوێنەر دەدات کە بە چاوێکی کراوە و پڕ لە سۆزەوە سەیری پەیوەندییە خێزانییەکان و مافی مرۆڤ بۆ ژیانێکی ئازاد بکات."
+          }
+        ]
+      },
+      {
+        id: "bk-culture-sharafkhan",
+        genre: "کەلتووری",
+        author: "شەرەفخانی بەدلیسی",
+        bookBg: "./bg-1.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(24, 18, 10, 0.86), rgba(11, 8, 4, 0.95))",
+        title: "شەرەفنامە — مێژوو و کەلتووری کورد",
+        excerpt: "گرنگترین سەرچاوەی مێژوویی و کەلتووریی کورد کە لە ساڵی ١٥٩٧دا نووسراوە و ناسنامە و فەرهەنگی کورد دەپارێزێت.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: پاراستنی یادەوەری و مێژوو",
+            text: "شەرەفخانی بەدلیسی بە هەستێکی بەرزی بەرپرسیارێتییەوە مێژوو، دابونەریت، میرنشینەکان و ژیانی کەلتووریی کوردی تۆمار کرد.\nئەم کتێبە بەردی بناغەی ناسینی ڕابردوو و پاراستنی کەلەپووری نەتەوەییە."
+          },
+          {
+            heading: "بەشی دووەم: دابونەریت و ڕەوشتی کۆمەڵگە",
+            text: "لە لاپەڕەکانی شەرەفنامەدا باس لە میواندۆستی، ئازایەتی، ڕێزگرتن لە زانایان و گرنگیدان بە ئەدەب و هونەر کراوە."
+          },
+          {
+            heading: "بەشی سێیەم: گرنگیی شەرەفنامە بۆ ئەمڕۆ",
+            text: "ئەم شاکارە بۆ چەندین زمانی جیهانی وەرگێڕدراوە و بووەتە ناسنامەیەکی زانستی بۆ ناساندنی کەلتووری کورد بە جیهان."
+          }
+        ]
+      },
+      {
+        id: "bk-culture-ahmedkhani",
+        genre: "کەلتووری",
+        author: "ئەحمەدی خانی",
+        bookBg: "./bg-2.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(20, 17, 26, 0.86), rgba(10, 8, 14, 0.95))",
+        title: "مەم و زین — شاکاری کەلتوور و ئەدەبی کوردی",
+        excerpt: "بەرهەمە نەمرەکەی ئەحمەدی خانی کە عەشق، کەلتوور، فەلسەفە و ناسنامەی کوردی لە قاڵبێکی بەرزدا کۆ کردووەتەوە.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: جەژنی نەورۆز و دەستپێکی چیرۆک",
+            text: "ئەحمەدی خانی چیرۆکی مەم و زین لە ڕۆژی نەورۆز و لە ناو ئاهەنگ و خۆشیی خەڵکی جزیرەی بۆتانەوە دەست پێ دەکات.\nبەم شێوەیە دابونەریتی ڕەسەنی کوردی دەکاتە پاشخانی جوانترین چیرۆکی عەشق و وەفا."
+          },
+          {
+            heading: "بەشی دووەم: پەیامی زانست و یەکگرتن",
+            text: "لە پاڵ چیرۆکە عەشقییەکەدا، خانی بە قووڵی باس لە بەهای زمان، کتێب، زانست و یەکڕیزی دەکات وەک کلیلی پێشکەوتنی کۆمەڵگە."
+          },
+          {
+            heading: "بەشی سێیەم: نەمریی داستانەکە لە یادەوەریی خەڵکدا",
+            text: "مەم و زین تەنها کتێبێک نییە، بەڵکو بەشێکە لە هەستی هەموو تاکێکی کورد کە بەهای وەفاداری و پاکیی خۆشەویستی نیشان دەدات."
+          }
+        ]
+      },
+      {
+        id: "bk-culture-taufiq",
+        genre: "کەلتووری",
+        author: "تۆفیق وەهبی",
+        bookBg: "./bg-3.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(24, 19, 12, 0.86), rgba(11, 8, 5, 0.95))",
+        title: "دەستووری زمانی کوردی و فەرهەنگی ڕەسەن",
+        excerpt: "هەوڵە زانستی و کەلتوورییەکانی تۆفیق وەهبی بۆ ڕێکخستن و پاراستنی زمانی کوردی.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: زمان وەک ماڵی کەلتوور",
+            text: "تۆفیق وەهبی بە پەرۆشییەکی زانستییەوە بناغەی ڕێزمان و ڕێنووسی کوردیی داڕشت تا نەوەکانی داهاتوو بتوانن بە ڕوونی و پاراوی بنووسن و بخوێننەوە."
+          },
+          {
+            heading: "بەشی دووەم: پاراستنی وشە ڕەسەنەکان",
+            text: "ئەم کارە زانستییە بوو بە پردێک لە نێوان فەرهەنگی کلاسیکی و نووسینی هاوچەرخی کوردیدا."
+          }
+        ]
+      },
+      {
+        id: "bk-culture-masoud",
+        genre: "کەلتووری",
+        author: "مەسعوود محەمەد",
+        bookBg: "./bg-6.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(26, 18, 10, 0.86), rgba(12, 8, 4, 0.95))",
+        title: "مرۆڤ و دەوروبەر — تێڕامانی کەلتووری و هزری",
+        excerpt: "لێکۆڵینەوە و تێڕامانە قووڵەکانی مەسعوود محەمەد دەربارەی زمان، کۆمەڵگە و هزری مرۆیی.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: ڕۆڵی هزر و زمان لە پێشکەوتندا",
+            text: "مەسعوود محەمەد بە قووڵییەکی فەلسەفییەوە باس لەوە دەکات کە چۆن گەشەکردنی زمان و بیرکردنەوەی ڕەخنەگرانە بناغەی هەر شارستانییەتێکن."
+          },
+          {
+            heading: "بەشی دووەم: ڕێزگرتن لە فەرهەنگ و زانست",
+            text: "لە نووسینەکانیدا هەمیشە جەخت لەوە دەکاتەوە کە کۆمەڵگەی زیندوو ئەو کۆمەڵگەیەیە کە ڕێز لە ڕابردووی خۆی دەگرێت و دەرگای زانستی نوێش دەکاتەوە."
+          }
+        ]
+      },
+      {
+        id: "bk-world-exupery",
+        genre: "جیهانی",
+        author: "ئەنتوان دۆ سانت ئێگزوپێری",
+        bookBg: "./bg-5.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(12, 22, 34, 0.86), rgba(6, 11, 18, 0.95))",
+        title: "شازادە بچکۆلە (The Little Prince)",
+        excerpt: "یەکێک لە خۆشەویستترین کتێبەکانی جیهان دەربارەی هاوڕێیەتی، عەشق و بینینی جەوهەری شتەکان بە دڵ.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: نهێنییەکەی ڕێوییەکە",
+            text: "لە ناوەڕاستی بیاباندا شازادە بچکۆلە فێری گەورەترین وانەی ژیان دەبێت: مرۆڤ تەنها بە دڵ دەتوانێت بە ڕاستی ببینێت، چونکە شتە گرنگەکان بە چاو نابینرێن.\nئەو کاتەی بۆ گوڵەکەت تەرخانی دەکەیت، بەهای پێ دەبەخشێت و دەیکاتە تاکە گوڵی دنیا بۆ تۆ."
+          },
+          {
+            heading: "بەشی دووەم: گەڕانەوە بۆ سادەیی منداڵی",
+            text: "ئەم کتێبە ئاوێنەیەکە بۆ گەورەکان تا لە ناو سەرقاڵیی دنیادا میهرەبانی، سەرسوڕمان و دڵپاکی لە بیر نەکەن."
+          },
+          {
+            heading: "بەشی سێیەم: ئەستێرەکان و زەردەخەنەی یاد",
+            text: "شازادە بچکۆلە پێمان دەڵێت کاتێک شەوانە سەیری ئەستێرەکان دەکەیت، وەک ئەوە وایە هەموو ئەستێرەکان پێبکەنن چونکە ئازیزێکت لە یەکێکیاندا دەژی."
+          }
+        ]
+      },
+      {
+        id: "bk-world-dostoevsky",
+        genre: "جیهانی",
+        author: "فیۆدۆر دۆستۆیڤسکی",
+        bookBg: "./bg-2.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(18, 17, 24, 0.86), rgba(9, 8, 12, 0.95))",
+        title: "شەوە سپییەکان (White Nights)",
+        excerpt: "ڕۆمانە ناسکەکەی دۆستۆیڤسکی دەربارەی تەنیایی، خەونبینین و چوار شەوی لەبیرنەکراو لە پترسبۆرگ.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: شەوی یەکەم و ناسینی ناستێنکا",
+            text: "لە شەوە ڕووناکەکانی هاوینی پترسبۆرگدا، گەنجێکی تەنیا لەسەر پردێک چاوی بە ناستێنکا دەکەوێت و دەرگای گفتوگۆیەکی پڕ لە سۆز و خەیاڵ دەکرێتەوە.\nدۆستۆیڤسکی بە وردییەکی دەروونیی سەرسوڕهێنەر هەستی مرۆڤی تەنیا و هیواخواز دەخاتە ڕوو."
+          },
+          {
+            heading: "بەشی دووەم: بەهای چرکەیەک بەختەوەری",
+            text: "لە کۆتاییدا کتێبەکە پرسیارێکی قووڵ بەجێ دەهێڵێت: ئایا چرکەیەکی تەواو لە بەختەوەری و دڵسۆزی، بەشی تەواوی ژیانی مرۆڤ ناکات؟\nدڵی پاکی خەونبینەکە تەنانەت لە کاتی ماڵئاواییشدا هیوای بەختەوەری بۆ ناستێنکا دەخوازێت."
+          }
+        ]
+      },
+      {
+        id: "bk-world-hugo",
+        genre: "جیهانی",
+        author: "ڤیکتۆر هۆگۆ",
+        bookBg: "./bg-1.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(18, 18, 20, 0.86), rgba(9, 9, 11, 0.95))",
+        title: "بێنەوایان (Les Misérables)",
+        excerpt: "شاکاری مەزنی ئەدەبی جیهانی دەربارەی دادپەروەری، لێبوردەیی و گۆڕانی ڕۆحی مرۆڤ بەرەو چاکە.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: میهرەبانییەک کە ژیانێک دەگۆڕێت",
+            text: "کاتێک قەشە میریێل بە لێبوردەیی و میهرەبانی مامەڵە لەگەڵ ژان ڤالژان دەکات، دەرگای ژیانێکی نوێ لە بەردەمیدا دەکاتەوە.\nڤیکتۆر هۆگۆ نیشانی دەدات کە لێبوردەیی هێزێکی گەورەترە لە سزا."
+          },
+          {
+            heading: "بەشی دووەم: ویژدان و مرۆڤایەتی",
+            text: "بێنەوایان سروودێکە بۆ کەرامەتی مرۆڤ، بەرگریکردن لە هەژاران و باوەڕبوون بەوەی کە هەموو مرۆڤێک دەتوانێت بەرەو ڕووناکی هەنگاو بنێت."
+          }
+        ]
+      },
+      {
+        id: "bk-world-tolstoy",
+        genre: "جیهانی",
+        author: "لیۆ تۆڵستۆی",
+        bookBg: "./bg-3.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(24, 20, 14, 0.86), rgba(11, 9, 6, 0.95))",
+        title: "مرۆڤ بە چی دەژی؟ — کۆمەڵە چیرۆکی حیکمەت",
+        excerpt: "چیرۆکە کورتە بەناوبانگەکانی تۆڵستۆی دەربارەی میهرەبانی، قەناعەت و مانای ڕاستەقینەی ژیانی مرۆڤ.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: سێ پرسیارە گەورەکەی ژیان",
+            text: "تۆڵستۆی لەم کتێبەدا بە زمانێکی سادە و قووڵ وەڵامی ئەوە دەداتەوە کە مرۆڤ بە خۆشەویستی، میهرەبانی و یارمەتیدانی ئەوانی تر دەژی، نەک بە کۆکردنەوەی سامان."
+          },
+          {
+            heading: "بەشی دووەم: ئارامیی قەناعەت و دڵسۆزی",
+            text: "هەر چیرۆکێکی تۆڵستۆی وانەیەکی ئەخلاقیی بەرزە کە دڵی خوێنەر هێور دەکاتەوە و ڕێگای ئاشتی نیشان دەدات."
+          }
+        ]
+      },
+      {
+        id: "bk-spiritual-rumi",
+        genre: "کتێبی ڕۆحی",
+        author: "مەولانا جەلالەدینی ڕۆمی",
+        bookBg: "./bg-5.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(12, 26, 26, 0.86), rgba(6, 13, 14, 0.95))",
+        title: "مەسنەویی مەعنەوی — گەشتی ڕۆح و عەشق",
+        excerpt: "هەڵبژاردەیەک لە حیکایەت و وانە ڕۆحییەکانی مەولانا ڕۆمی دەربارەی ئارامیی دڵ و عەشقی پاک.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: سکاڵای نەی و سۆزی گەڕانەوە",
+            text: "مەولانا مەسنەوی بە دەنگی نەی دەست پێ دەکات کە باس لە دووری و تامەزرۆیی ڕۆح بۆ سەرچاوەی خۆی دەکات.\nلە تێڕوانینی مەولانادا، ئەوەی مرۆڤ ئارام دەکاتەوە پاککردنەوەی دڵە لە ڕق و ترس و پڕکردنیەتی بە خۆشەویستی."
+          },
+          {
+            heading: "بەشی دووەم: ڕووناکی لە ناوەوە دێت",
+            text: "مەولانا دەفەرموێت: برین ئەو شوێنەیە کە ڕووناکی لێوەی دەچێتە ناوەوەت.\nهەر ئازار و ئەزموونێک ئەگەر بە چاوی مەعریفەت سەیر بکرێت، مرۆڤ پێگەیشتووتر و ئارامتر دەکات."
+          },
+          {
+            heading: "بەشی سێیەم: ئارامیی دەریای دڵ",
+            text: "کاتێک دڵ وەک دەریایەکی هێمن لێ دێت، شەپۆلە کاتییەکانی ڕۆژگار ناتوانن قووڵاییەکەی بشڵەژێنن."
+          }
+        ]
+      },
+      {
+        id: "bk-spiritual-coelho",
+        genre: "کتێبی ڕۆحی",
+        author: "پاۆلۆ کۆیلۆ",
+        bookBg: "./bg-4.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(28, 19, 10, 0.86), rgba(13, 9, 5, 0.95))",
+        title: "کیمیاگەر (The Alchemist)",
+        excerpt: "چیرۆکە ڕۆحییە بەناوبانگەکەی پاۆلۆ کۆیلۆ دەربارەی شوێنکەوتنی خەونی ڕاستەقینە و گوێگرتن لە دڵ.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: ئەفسانەی تاکەکەسیی هەر مرۆڤێک",
+            text: "سانتیاگۆ شوانە گەنجەکە، گەشتەکەی لە ئەندەلوسەوە بەرەو ئەهرامەکانی میسر دەست پێ دەکات بۆ دۆزینەوەی گەنجینەکەی.\nلە ڕێگادا فێر دەبێت کە گەورەترین گەنجینە ئەو گۆڕانکارییەیە کە لە ناو ڕۆحی خۆیدا ڕوو دەدات."
+          },
+          {
+            heading: "بەشی دووەم: گوێگرتن لە زمانی دڵ",
+            text: "کیمیاگەر بە سانتیاگۆ دەڵێت: لە هەر شوێنێک دڵت بێت، گەنجینەکەشت لەوێیە.\nکتێبێکی پڕ لە هیوا کە خوێنەر هان دەدات متمانەی بە ڕێگای خۆی هەبێت."
+          }
+        ]
+      },
+      {
+        id: "bk-spiritual-shafak",
+        genre: "کتێبی ڕۆحی",
+        author: "ئەلیف شەفەق",
+        bookBg: "./bg-6.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(28, 18, 11, 0.86), rgba(13, 8, 5, 0.95))",
+        title: "چل ڕێساکەی عەشق (The Forty Rules of Love)",
+        excerpt: "گێڕانەوەی هاوڕێیەتیی ڕۆحیی نێوان شەمسی تەبرێزی و مەولانا ڕۆمی و چل ڕێسا بۆ ژیانێکی پڕ لە عەشق و ئاشتی.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: گۆڕینی نیگا بۆ ژیان",
+            text: "لە ڕێگەی ڕێساکانی شەمسی تەبرێزییەوە، ئەلیف شەفەق نیشانی دەدات کە چۆن عەشق دەتوانێت ترسە کۆنەکان بتوێنێتەوە و ئارامی ببەخشێت بە دەروون.\nیەکێک لە ڕێساکان دەڵێت: هیچ شتێک لە نێوان تۆ و خودادا نییە جگە لە پەردەکانی ناو دڵی خۆت."
+          },
+          {
+            heading: "بەشی دووەم: هێزی هاوڕێیەتیی ڕۆحی",
+            text: "کتێبەکە پێمان دەڵێت مرۆڤ دەتوانێت لە هەر تەمەنێکدا بێت، بە دڵێکی کراوە و میهرەبان لاپەڕەیەکی نوێ لە ژیانیدا هەڵبداتەوە."
+          }
+        ]
+      },
+      {
+        id: "bk-spiritual-gibran-prophet",
+        genre: "کتێبی ڕۆحی",
+        author: "جبران خەلیل جبران",
+        bookBg: "./bg-1.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(16, 22, 24, 0.86), rgba(8, 11, 13, 0.95))",
+        title: "پەیامبەر (The Prophet)",
+        excerpt: "شاکارە فەلسەفی و ڕۆحییەکەی جبران دەربارەی عەشق، هاوڕێیەتی، کار، خۆشی و خەم و ئازادی.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: وتارەکان دەربارەی عەشق و هاوڕێیەتی",
+            text: "لە شاری ئۆرفالیسدا، ئەلموستەفا بە زمانێکی شاعیرانە و قووڵ وەڵامی پرسیاری خەڵک دەداتەوە دەربارەی نهێنییەکانی ژیان.\nدەربارەی هاوڕێیەتی دەڵێت: هاوڕێکەت وەڵامی پێداویستییەکانتە، ئەو کێڵگەیەیە کە بە خۆشەویستی تۆوی تێدا دەچێنیت و بە سوپاسگوزاری دروێنەی دەکەیت."
+          },
+          {
+            heading: "بەشی دووەم: خۆشی و خەم وەک دوو ڕووی یەک ژیان",
+            text: "جبران بە جوانترین شێوە ڕوونی دەکاتەوە کە خەم و خۆشی پێکەوە دێن و هەر چەندە خەم قووڵتر بێت لە ناو بوونتدا، هێندەش جێگای خۆشیی زیاتر دەبێتەوە."
+          }
+        ]
+      },
+      {
+        id: "bk-advice-ibnmuqaffa",
+        genre: "ئامۆژگاری",
+        author: "ئیبن موقەفەع",
+        bookBg: "./bg-3.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(24, 20, 13, 0.86), rgba(11, 9, 6, 0.95))",
+        title: "کەلیلە و دیمنە — حیکمەت و ئامۆژگاریی ژیرانە",
+        excerpt: "کتێبە کلاسیکییە جیهانییەکە لە بواری حیکمەت، بەڕێوەبردن، هاوڕێیەتی و دووربینی لە ژیاندا.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: بەهای ژیری و وردبینی پێش بڕیار",
+            text: "«کەلیلە و دیمنە» لە ڕێگەی چیرۆکی سەرنجڕاکێشەوە گرنگترین وانەکانی ژیان پێشکەش دەکات: هەرگیز بە بێ لێکۆڵینەوە بڕوا بە قسەی دووبەرەکی مەکە و لە کاتی توڕەییدا بڕیار مەدە.\nژیری و پشوودرێژی هەمیشە مرۆڤ لە پەشیمانی دەپارێزن."
+          },
+          {
+            heading: "بەشی دووەم: هەڵبژاردنی هاوڕێی دڵسۆز",
+            text: "کتێبەکە بە وردی باس لەوە دەکات کە هاوڕێی ڕاستەقینە ئەو کەسەیە کە لە کاتی تەنگانەدا پشتت دەگرێت و بە ڕاستگۆیی ئامۆژگاریت دەکات."
+          },
+          {
+            heading: "بەشی سێیەم: هاوکاری و یەکڕیزی",
+            text: "چیرۆکی کۆترەکان و مشکەکە نیشانی دەدات کە کاتێک هاوڕێکان پێکەوە کار دەکەن، دەتوانن لە سەختترین داو و بەربەست ڕزگاریان ببێت."
+          }
+        ]
+      },
+      {
+        id: "bk-advice-carnegie",
+        genre: "ئامۆژگاری",
+        author: "دەیڵ کارنێگی",
+        bookBg: "./bg-5.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(13, 22, 32, 0.86), rgba(6, 11, 17, 0.95))",
+        title: "واز لە قەلەقی بهێنە و دەست بە ژیان بکە",
+        excerpt: "ڕێنمایی کرداری و دەروونی بۆ زاڵبوون بەسەر دڵەڕاوکێدا و بەدەستهێنانی ئارامیی هزر.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: لە چوارچێوەی ئەمڕۆدا بژی",
+            text: "دەیڵ کارنێگی ئامۆژگاریمان دەکات کە دەرگاکانی دوێنێ و سبەینێ دابخەین و تەواوی وزەمان بخەینە سەر باشترین ئەنجامدان لە ئەمڕۆدا.\nزۆربەی ئەو شتانەی مرۆڤ خەمیان پێ دەخوات هەرگیز ڕوو نادەن."
+          },
+          {
+            heading: "بەشی دووەم: پاراستنی ئارامیی ناوەوە",
+            text: "کۆنترۆڵکردنی کاردانەوەکانمان و گۆڕینی شێوازی بیرکردنەوە لە کێشەکان، کلیلی ژیانێکی تەندروست و ئاسوودەیە."
+          },
+          {
+            heading: "بەشی سێیەم: سوپاسگوزاری و پشوودانی هزر",
+            text: "ئەگەر مرۆڤ سەرنجی بخاتە سەر ئەو نیعمەت و شتە جوانانەی کە هەیەتی، ئارامییەکی قووڵ شوێنی دڵەڕاوکێ دەگرێتەوە."
+          }
+        ]
+      },
+      {
+        id: "bk-advice-clear",
+        genre: "ئامۆژگاری",
+        author: "جەیمس کلیر",
+        bookBg: "./bg-1.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(18, 18, 22, 0.86), rgba(9, 9, 12, 0.95))",
+        title: "خووە گەردیلەییەکان (Atomic Habits)",
+        excerpt: "چۆن گۆڕانکارییە بچووکەکانی ڕۆژانە دەبنە هۆی سەرکەوتن و باشتربوونی گەورە لە ژیاندا.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: هێزی گۆڕانکاریی یەک لە سەد",
+            text: "جەیمس کلیر ڕوونی دەکاتەوە کە پێویست ناکات لە یەک ڕۆژدا هەموو شتێک بگۆڕیت؛ ئەگەر هەموو ڕۆژێک تەنها ١٪ باشتر بیت، لە ماوەی ساڵێکدا گۆڕانکارییەکی سەرسوڕهێنەر دروست دەکەیت.\nسیستەم و بەردەوامی لە ئامانجی کاتی گرنگترن."
+          },
+          {
+            heading: "بەشی دووەم: دروستکردنی خووی باش",
+            text: "بۆ ئەوەی خوویەکی باش وەک خوێندنەوە یان وەرزش بچەسپێنیت، ڕوونی بکەرەوە، ئاسانی بکە و هەموو ڕۆژێک کاتێکی دیاریکراوی بۆ دابنێ."
+          }
+        ]
+      },
+      {
+        id: "bk-advice-covey",
+        genre: "ئامۆژگاری",
+        author: "ستیڤن کۆڤی",
+        bookBg: "./bg-3.jpeg",
+        readerOverlay: "linear-gradient(175deg, rgba(22, 19, 13, 0.86), rgba(10, 9, 6, 0.95))",
+        title: "حەوت خووەکەی کەسە سەرکەوتووەکان",
+        excerpt: "بنەما نەگۆڕەکانی ڕەوشت، بەرپرسیارێتی، پەیوەندیی دروست و گەشەپێدانی کەسایەتی.",
+        chapters: [
+          {
+            heading: "بەشی یەکەم: دەستپێشخەربە و بەرپرسیارێتی بگرە ئەستۆ",
+            text: "ستیڤن کۆڤی ڕوونی دەکاتەوە کە مرۆڤی ئازاد و ژیر لە نێوان ڕووداوەکان و کاردانەوەکانیدا مەودایەک دادەنێت و بە ژیری بڕیار دەدات، نەک بە توڕەیی."
+          },
+          {
+            heading: "بەشی دووەم: سەرەتا هەوڵ بدە تێبگەیت، ئینجا تێبگەیەنیت",
+            text: "گوێگرتنی قووڵ و دڵسۆزانە لە بەرانبەرەکەت، گەورەترین پردی متمانە و ئاشتی لە نێوان مرۆڤەکاندا دروست دەکات."
+          }
+        ]
+      }
+    ];
+
+    const bookshopScreen = document.getElementById("bookshopScreen");
+    const bookshopHeaderTitle = document.getElementById("bookshopHeaderTitle");
+    const bookshopHeaderSub = document.getElementById("bookshopHeaderSub");
+    const openBookshopBtn = document.getElementById("openBookshopBtn");
+    const closeBookshopBtn = document.getElementById("closeBookshopBtn");
+    const bookshopSearchInput = document.getElementById("bookshopSearchInput");
+    const genrePillsBar = document.getElementById("genrePillsBar");
+    const booksGridList = document.getElementById("booksGridList");
+    const bookReaderView = document.getElementById("bookReaderView");
+    const backToBooksListBtn = document.getElementById("backToBooksListBtn");
+    const readerBookTitle = document.getElementById("readerBookTitle");
+    const readerBookAuthor = document.getElementById("readerBookAuthor");
+    const readerBookChapter = document.getElementById("readerBookChapter");
+    const readerChaptersToc = document.getElementById("readerChaptersToc");
+    const readerBookBody = document.getElementById("readerBookBody");
+    const prevChapterBtn = document.getElementById("prevChapterBtn");
+    const nextChapterBtn = document.getElementById("nextChapterBtn");
+    const chapterCounterLabel = document.getElementById("chapterCounterLabel");
+
+    let activeGenre = "هەمووی";
+    let bookSearchQuery = "";
+    let activeBook = null;
+    let activeChapterIndex = 0;
+
+    if (bookshopHeaderTitle) {
+      bookshopHeaderTitle.textContent = `کتێبخانە (${libraryBooks.length} کتێب)`;
+    }
+    if (bookshopHeaderSub) {
+      bookshopHeaderSub.textContent = "هەڵبژاردنی پۆل و خوێندنەوەی کتێبی ڕاستەقینە بە بەشە درێژەکانەوە";
+    }
+
+    function applyGenreAtmosphere(genreName) {
+      const preset = genreAtmospherePresets[genreName] || genreAtmospherePresets["هەمووی"];
+      const s = bookshopScreen.style;
+      s.setProperty("--b-top", preset.top);
+      s.setProperty("--b-bottom", preset.bottom);
+      s.setProperty("--b-card-top", preset.cardTop);
+      s.setProperty("--b-card-bottom", preset.cardBottom);
+      s.setProperty("--b-accent", preset.accent);
+      s.setProperty("--b-sub", preset.sub);
+      s.setProperty("--b-border", preset.border);
+      s.setProperty("--b-border-strong", preset.borderStrong);
+      s.setProperty("--b-glow", preset.glow);
+      s.backgroundImage = `linear-gradient(to bottom, ${preset.top}, ${preset.bottom}), url("${preset.bgSrc}")`;
+    }
+
+    function renderGenrePills() {
+      genrePillsBar.innerHTML = "";
+      BOOK_GENRES.forEach((genre) => {
+        const countForGenre = genre === "هەمووی"
+          ? libraryBooks.length
+          : libraryBooks.filter((b) => b.genre === genre).length;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "genre-pill-btn" + (activeGenre === genre ? " active" : "");
+        btn.textContent = `${genre} (${countForGenre})`;
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          activeGenre = genre;
+          activeBook = null;
+          bookReaderView.classList.remove("active");
+          booksGridList.style.display = "grid";
+          applyGenreAtmosphere(activeGenre);
+          renderGenrePills();
+          renderBooksList();
+        });
+        genrePillsBar.appendChild(btn);
+      });
+    }
+
+    function renderBooksList() {
+      const q = bookSearchQuery.trim().toLowerCase();
+      const filtered = libraryBooks.filter((b) => {
+        const matchesGenre = activeGenre === "هەمووی" || b.genre === activeGenre;
+        if (!matchesGenre) return false;
+        if (!q) return true;
+        return (
+          b.title.toLowerCase().includes(q) ||
+          (b.author && b.author.toLowerCase().includes(q)) ||
+          b.excerpt.toLowerCase().includes(q)
+        );
+      });
+
+      booksGridList.innerHTML = "";
+      if (filtered.length === 0) {
+        const emptyCard = document.createElement("div");
+        emptyCard.className = "book-card-item";
+        emptyCard.style.cursor = "default";
+        emptyCard.textContent = "هیچ کتێبێک بەو ناوە نەدۆزرایەوە.";
+        booksGridList.appendChild(emptyCard);
+        return;
+      }
+
+      filtered.forEach((book) => {
+        const card = document.createElement("div");
+        card.className = "book-card-item";
+
+        const meta = document.createElement("div");
+        meta.className = "book-card-top-meta";
+
+        const tag = document.createElement("span");
+        tag.className = "book-genre-tag";
+        tag.textContent = book.genre;
+
+        const chCount = document.createElement("span");
+        chCount.textContent = `${book.chapters.length} بەش`;
+
+        meta.appendChild(tag);
+        meta.appendChild(chCount);
+
+        const titleEl = document.createElement("h3");
+        titleEl.className = "book-card-title";
+        titleEl.textContent = book.title;
+
+        const authorEl = document.createElement("div");
+        authorEl.className = "book-author-line";
+        authorEl.textContent = `نووسەر: ${book.author}`;
+
+        const excerptEl = document.createElement("p");
+        excerptEl.className = "book-card-excerpt";
+        excerptEl.textContent = book.excerpt;
+
+        const ctaEl = document.createElement("span");
+        ctaEl.className = "book-open-cta";
+        ctaEl.textContent = "خوێندنەوەی کتێب";
+
+        card.appendChild(meta);
+        card.appendChild(titleEl);
+        card.appendChild(authorEl);
+        card.appendChild(excerptEl);
+        card.appendChild(ctaEl);
+
+        card.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openSingleBookReader(book);
+        });
+
+        booksGridList.appendChild(card);
+      });
+    }
+
+    if (bookshopSearchInput) {
+      bookshopSearchInput.addEventListener("input", (e) => {
+        bookSearchQuery = e.target.value || "";
+        if (activeBook) {
+          activeBook = null;
+          bookReaderView.classList.remove("active");
+          booksGridList.style.display = "grid";
+        }
+        renderBooksList();
+      });
+      bookshopSearchInput.addEventListener("click", (e) => e.stopPropagation());
+    }
+
+    function renderChapterTocChips() {
+      if (!readerChaptersToc || !activeBook) return;
+      readerChaptersToc.innerHTML = "";
+      activeBook.chapters.forEach((_, idx) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "toc-chip-btn" + (idx === activeChapterIndex ? " active" : "");
+        chip.textContent = `بەشی ${idx + 1}`;
+        chip.addEventListener("click", (e) => {
+          e.stopPropagation();
+          activeChapterIndex = idx;
+          updateBookChapterDisplay();
+        });
+        readerChaptersToc.appendChild(chip);
+      });
+    }
+
+    function updateBookChapterDisplay() {
+      if (!activeBook) return;
+      const chap = activeBook.chapters[activeChapterIndex];
+      readerBookTitle.textContent = activeBook.title;
+      readerBookAuthor.textContent = `نووسەر: ${activeBook.author}`;
+      readerBookChapter.textContent = chap.heading;
+      readerBookBody.textContent = chap.text;
+      chapterCounterLabel.textContent = `${activeChapterIndex + 1} / ${activeBook.chapters.length}`;
+      prevChapterBtn.disabled = activeChapterIndex <= 0;
+      nextChapterBtn.disabled = activeChapterIndex >= activeBook.chapters.length - 1;
+      renderChapterTocChips();
+    }
+
+    function openSingleBookReader(book) {
+      activeBook = book;
+      activeChapterIndex = 0;
+      applyGenreAtmosphere(book.genre);
+
+      const overlay = book.readerOverlay || "linear-gradient(175deg, rgba(20, 16, 13, 0.86), rgba(10, 8, 6, 0.95))";
+      bookReaderView.style.backgroundImage = `${overlay}, url("${book.bookBg || "./bg-1.jpeg"}")`;
+
+      booksGridList.style.display = "none";
+      bookReaderView.classList.add("active");
+      updateBookChapterDisplay();
+      bookshopScreen.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function openBookshopScreen() {
+      unlockSiteFromWelcomeGate();
+      activeBook = null;
+      bookReaderView.classList.remove("active");
+      booksGridList.style.display = "grid";
+      applyGenreAtmosphere(activeGenre);
+      renderGenrePills();
+      renderBooksList();
+      bookshopScreen.classList.add("active");
+      bookshopScreen.scrollTop = 0;
+    }
+
+    function closeBookshopScreen() {
+      bookshopScreen.classList.remove("active");
+      activeBook = null;
+      bookReaderView.classList.remove("active");
+    }
+
+    if (openBookshopBtn) {
+      openBookshopBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openBookshopScreen();
+      });
+    }
+
+    if (closeBookshopBtn) {
+      closeBookshopBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeBookshopScreen();
+      });
+    }
+
+    if (backToBooksListBtn) {
+      backToBooksListBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        activeBook = null;
+        bookReaderView.classList.remove("active");
+        booksGridList.style.display = "grid";
+        applyGenreAtmosphere(activeGenre);
+      });
+    }
+
+    if (prevChapterBtn) {
+      prevChapterBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (activeBook && activeChapterIndex > 0) {
+          activeChapterIndex--;
+          updateBookChapterDisplay();
+          bookshopScreen.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+    }
+
+    if (nextChapterBtn) {
+      nextChapterBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (activeBook && activeChapterIndex < activeBook.chapters.length - 1) {
+          activeChapterIndex++;
+          updateBookChapterDisplay();
+          bookshopScreen.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+    }
+
+    const authorNameTrigger = document.getElementById("authorNameTrigger");
+    const dashboardBackdrop = document.getElementById("dashboardBackdrop");
+    const dashboardModal = document.getElementById("dashboardModal");
+    const closeDashBtn = document.getElementById("closeDashBtn");
+    const logoutDashBtn = document.getElementById("logoutDashBtn");
+    const authStep = document.getElementById("authStep");
+    const addPoemStep = document.getElementById("addPoemStep");
+    const adminEmailInput = document.getElementById("adminEmailInput");
+    const passcodeInput = document.getElementById("passcodeInput");
+    const unlockDashBtn = document.getElementById("unlockDashBtn");
+    const authErrorMsg = document.getElementById("authErrorMsg");
+    const newPoemTitleInput = document.getElementById("newPoemTitleInput");
+    const newPoemBodyInput = document.getElementById("newPoemBodyInput");
+    const submitNewPoemBtn = document.getElementById("submitNewPoemBtn");
+    const poemFeedbackMsg = document.getElementById("poemFeedbackMsg");
+    const myAddedPoemsList = document.getElementById("myAddedPoemsList");
+
+    let currentFirebaseUser = null;
+
+    function syncDashboardAuthView() {
+      const signedIn = Boolean(currentFirebaseUser);
+      if (signedIn) {
+        authErrorMsg.textContent = "";
+        authStep.style.display = "none";
+        addPoemStep.style.display = "block";
+        renderMyAddedPoemsInDashboard();
+      } else {
+        authStep.style.display = "block";
+        addPoemStep.style.display = "none";
+      }
+    }
+
+    window.sherwanOnAuthStateChanged = function (user) {
+      currentFirebaseUser = user || null;
+      if (dashboardBackdrop.classList.contains("active")) {
+        syncDashboardAuthView();
+      }
+    };
+
+    function renderMyAddedPoemsInDashboard() {
+      myAddedPoemsList.innerHTML = "";
+      if (!myAddedPoems || myAddedPoems.length === 0) {
+        const emptyEl = document.createElement("div");
+        emptyEl.className = "my-poems-empty";
+        emptyEl.textContent = "هیچ شعرێکی زیادکراو بە دەستت نییە لەم لیستەدا.";
+        myAddedPoemsList.appendChild(emptyEl);
+        return;
+      }
+
+      myAddedPoems.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "my-poem-item";
+
+        const content = document.createElement("div");
+        content.className = "my-poem-content";
+
+        const tEl = document.createElement("div");
+        tEl.className = "my-poem-item-title";
+        tEl.textContent = item.title;
+
+        const bEl = document.createElement("div");
+        bEl.className = "my-poem-item-body";
+        bEl.textContent = item.body;
+
+        content.appendChild(tEl);
+        content.appendChild(bEl);
+
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.className = "delete-my-poem-btn";
+        delBtn.textContent = "سڕینەوە";
+        delBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          deleteOnlyMyAddedPoem(item.id);
+        });
+
+        row.appendChild(content);
+        row.appendChild(delBtn);
+        myAddedPoemsList.appendChild(row);
+      });
+    }
+
+    async function deleteOnlyMyAddedPoem(poemId) {
+      const idStr = String(poemId);
+      const target = myAddedPoems.find((p) => String(p.id) === idStr && p.isUserAdded === true);
+      if (!target) return;
+
+      if (!currentFirebaseUser || typeof window.sherwanCloudDeletePost !== "function") {
+        poemFeedbackMsg.style.color = "#ff8a8a";
+        poemFeedbackMsg.textContent = "پێویستە سەرەتا بە ئیمەیڵ و پاسۆردی بەڕێوەبەر بچیتە ژوورەوە.";
+        return;
+      }
+
+      try {
+        await window.sherwanCloudDeletePost(idStr);
+        myAddedPoems = myAddedPoems.filter((p) => String(p.id) !== idStr);
+        saveMyAddedPoems(myAddedPoems);
+
+        rebuildPoemsListFromCloudAndLocal(null);
+        renderMyAddedPoemsInDashboard();
+        renderAll();
+
+        poemFeedbackMsg.style.color = "#8ef5b0";
+        poemFeedbackMsg.textContent = "شعرە زیادکراوەکە لە Firestore سڕدرایەوە و لای هەمووان نوێ کرایەوە.";
+      } catch (err) {
+        poemFeedbackMsg.style.color = "#ff8a8a";
+        poemFeedbackMsg.textContent = "سڕینەوە ڕەتکرایەوە: " + (err && err.message ? err.message : "هەڵەی مۆڵەت");
+      }
+    }
+
+    function openDashboardModal() {
+      authErrorMsg.textContent = "";
+      poemFeedbackMsg.textContent = "";
+      passcodeInput.value = "";
+      syncDashboardAuthView();
+      dashboardBackdrop.classList.add("active");
+      if (!currentFirebaseUser) {
+        setTimeout(() => {
+          if (adminEmailInput && !adminEmailInput.value.trim()) {
+            adminEmailInput.focus();
+          } else {
+            passcodeInput.focus();
+          }
+        }, 60);
+      } else {
+        setTimeout(() => newPoemTitleInput.focus(), 60);
+      }
+    }
+
+    function closeDashboardModal() {
+      dashboardBackdrop.classList.remove("active");
+    }
+
+    authorNameTrigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openDashboardModal();
+    });
+
+    closeDashBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeDashboardModal();
+    });
+
+    if (logoutDashBtn) {
+      logoutDashBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        if (typeof window.sherwanAdminLogout === "function") {
+          try {
+            await window.sherwanAdminLogout();
+          } catch (_) {}
+        }
+        currentFirebaseUser = null;
+        passcodeInput.value = "";
+        poemFeedbackMsg.textContent = "";
+        syncDashboardAuthView();
+      });
+    }
+
+    dashboardBackdrop.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (e.target === dashboardBackdrop) {
+        closeDashboardModal();
+      }
+    });
+
+    dashboardModal.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    async function verifyPasscode() {
+      const email = (adminEmailInput ? adminEmailInput.value : "").trim();
+      const password = passcodeInput.value;
+
+      if (!email || !password) {
+        authErrorMsg.textContent = "تکایە ئیمەیڵ و پاسۆردەکەت بنووسە.";
+        return;
+      }
+
+      if (typeof window.sherwanAdminLogin !== "function") {
+        authErrorMsg.textContent = "سیستەمی چوونەژوورەوەی Firebase هێشتا بار نەبووە.";
+        return;
+      }
+
+      unlockDashBtn.disabled = true;
+      authErrorMsg.style.color = "#e6eaf0";
+      authErrorMsg.textContent = "خەریکی پشکنینی هەژمارە...";
+
+      try {
+        const cred = await window.sherwanAdminLogin(email, password);
+        currentFirebaseUser = cred.user;
+        passcodeInput.value = "";
+        authErrorMsg.style.color = "#ff8a8a";
+        authErrorMsg.textContent = "";
+        newPoemTitleInput.value = "";
+        newPoemBodyInput.value = "";
+        poemFeedbackMsg.textContent = "";
+        syncDashboardAuthView();
+        setTimeout(() => newPoemTitleInput.focus(), 60);
+      } catch (err) {
+        authErrorMsg.style.color = "#ff8a8a";
+        authErrorMsg.textContent = "ئیمەیڵ یان پاسۆردەکە هەڵەیە! تکایە دووبارە هەوڵ بدەرەوە.";
+      } finally {
+        unlockDashBtn.disabled = false;
+      }
+    }
+
+    unlockDashBtn.addEventListener("click", verifyPasscode);
+    passcodeInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        verifyPasscode();
+      }
+    });
+    if (adminEmailInput) {
+      adminEmailInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          passcodeInput.focus();
+        }
+      });
+    }
+
+    async function addNewPoemGlobal() {
+      const bodyText = newPoemBodyInput.value.trim();
+      if (!bodyText) {
+        poemFeedbackMsg.style.color = "#ff8a8a";
+        poemFeedbackMsg.textContent = "تکایە دەقی شعرەکە بنووسە.";
+        return;
+      }
+
+      if (!currentFirebaseUser || typeof window.sherwanCloudSavePost !== "function") {
+        poemFeedbackMsg.style.color = "#ff8a8a";
+        poemFeedbackMsg.textContent = "تەنها دوای چوونەژوورەوە بە هەژماری بەڕێوەبەر دەتوانیت شعر پاشەکەوت بکەیت.";
+        return;
+      }
+
+      const rawTitle = newPoemTitleInput.value.trim();
+      const firstLineWords = bodyText.split(/\s+/).slice(0, 4).join(" ");
+      const finalTitle = rawTitle || `شعر — ${firstLineWords}`;
+      const nowMs = Date.now();
+
+      const newEntry = {
+        id: `poem_${nowMs}_${Math.floor(Math.random() * 1000)}`,
+        title: finalTitle,
+        body: bodyText,
+        isUserAdded: true,
+        createdAtMs: nowMs
+      };
+
+      submitNewPoemBtn.disabled = true;
+      poemFeedbackMsg.style.color = "#e6eaf0";
+      poemFeedbackMsg.textContent = "خەریکی پاشەکەوتکردنە لە Firestore...";
+
+      try {
+        await window.sherwanCloudSavePost(newEntry);
+
+        myAddedPoems.unshift(newEntry);
+        saveMyAddedPoems(myAddedPoems);
+        rebuildPoemsListFromCloudAndLocal(null);
+        pinnedPoemId = newEntry.id;
+
+        renderAll();
+        renderMyAddedPoemsInDashboard();
+
+        newPoemTitleInput.value = "";
+        newPoemBodyInput.value = "";
+
+        poemFeedbackMsg.style.color = "#8ef5b0";
+        poemFeedbackMsg.textContent = "شعرەکە لە داتابەیسی گشتی پاشەکەوت کرا و لای هەمووان نوێ بووەوە.";
+      } catch (err) {
+        poemFeedbackMsg.style.color = "#ff8a8a";
+        poemFeedbackMsg.textContent = "پاشەکەوتکردن سەرکەوتوو نەبوو: " + (err && err.message ? err.message : "هەڵەیەک ڕوویدا");
+      } finally {
+        submitNewPoemBtn.disabled = false;
+      }
+    }
+
+    submitNewPoemBtn.addEventListener("click", addNewPoemGlobal);
+
+    const audioTracks = ["./dw-rega.mp3", "./sad-music.mp3"];
+    const STORAGE_SONG_KEY = "sherwan_last_song_src_v1";
+    const bgMusic = document.getElementById("bgMusic");
+    bgMusic.loop = false;
+    bgMusic.volume = 0.72;
+
+    function getLastSong() {
+      try {
+        return localStorage.getItem(STORAGE_SONG_KEY);
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function saveLastSong(src) {
+      try {
+        localStorage.setItem(STORAGE_SONG_KEY, src);
+      } catch (_) {}
+    }
+
+    function pickRandomSong(excludeSrc = null) {
+      const pool = audioTracks.filter((src) => src !== excludeSrc);
+      const candidates = pool.length > 0 ? pool : audioTracks;
+      return candidates[Math.floor(Math.random() * candidates.length)];
+    }
+
+    function loadNextSong(shouldPlay = false) {
+      const currentSrc = bgMusic.getAttribute("src") || getLastSong();
+      const nextSrc = pickRandomSong(currentSrc);
+      bgMusic.setAttribute("src", nextSrc);
+      bgMusic.load();
+      saveLastSong(nextSrc);
+
+      if (shouldPlay) {
+        const promise = bgMusic.play();
+        if (promise && typeof promise.catch === "function") {
+          promise.catch(() => {});
+        }
+      }
+    }
+
+    bgMusic.addEventListener("error", () => {
+      const current = bgMusic.getAttribute("src");
+      const fallback = audioTracks.find((src) => src !== current);
+      if (fallback) {
+        bgMusic.setAttribute("src", fallback);
+        saveLastSong(fallback);
+        bgMusic.load();
+        if (!bgMusic.paused) {
+          const p = bgMusic.play();
+          if (p && typeof p.catch === "function") p.catch(() => {});
+        }
+      }
+    });
+
+    bgMusic.addEventListener("ended", () => {
+      loadNextSong(true);
+    });
+
+    function toggleScreenMusic() {
+      if (!bgMusic) return;
+      if (!bgMusic.getAttribute("src")) {
+        loadNextSong(true);
+        return;
+      }
+      if (bgMusic.paused) {
+        const promise = bgMusic.play();
+        if (promise && typeof promise.catch === "function") {
+          promise.catch(() => {});
+        }
+      } else {
+        bgMusic.pause();
+      }
+    }
+
+    document.body.addEventListener("click", toggleScreenMusic);
+
+    setInterval(() => {
+      switchToAnotherBackground();
+
+      if (myAddedPoems.length === 0) {
+        pinnedTopSection.style.opacity = "0.25";
+        pinnedPoemId = null;
+        renderPinnedTop();
+
+        setTimeout(() => {
+          pinnedPoemId = pickNextUnseenPoemId(null);
+          renderPinnedTop();
+          applyBackgroundTheme(activeThemeIndex);
+          pinnedTopSection.style.opacity = "1";
+          resizeCanvases();
+        }, 450);
+      } else {
+        applyBackgroundTheme(activeThemeIndex);
+      }
+    }, 60000);
+
+    loadMoreBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      visibleCount = Math.min(poems.length, visibleCount + 25);
+      renderPoemsList();
+      applyBackgroundTheme(activeThemeIndex);
+    });
+
+    function drawHeartShape(context, s) {
+      context.beginPath();
+      context.moveTo(0, s * 0.35);
+      context.bezierCurveTo(-s * 0.65, -s * 0.35, -s * 1.15, s * 0.25, 0, s * 1.05);
+      context.bezierCurveTo(s * 1.15, s * 0.25, s * 0.65, -s * 0.35, 0, s * 0.35);
+      context.closePath();
+      context.fill();
+    }
+
+    function drawStarShape(context, s) {
+      const outer = s * 0.85;
+      const inner = s * 0.38;
+      context.beginPath();
+      for (let i = 0; i < 10; i++) {
+        const r = i % 2 === 0 ? outer : inner;
+        const angle = (i * Math.PI) / 5 - Math.PI / 2;
+        const px = Math.cos(angle) * r;
+        const py = Math.sin(angle) * r + s * 0.35;
+        if (i === 0) context.moveTo(px, py);
+        else context.lineTo(px, py);
+      }
+      context.closePath();
+      context.fill();
+    }
+
+    function drawMoonShape(context, s) {
+      const rOuter = s * 0.78;
+      const cy = s * 0.35;
+      context.beginPath();
+      context.arc(0, cy, rOuter, 0.35 * Math.PI, 1.65 * Math.PI, false);
+      context.bezierCurveTo(
+        -rOuter * 0.15,
+        cy - rOuter * 0.55,
+        -rOuter * 0.15,
+        cy + rOuter * 0.55,
+        Math.cos(0.35 * Math.PI) * rOuter,
+        cy + Math.sin(0.35 * Math.PI) * rOuter
+      );
+      context.closePath();
+      context.fill();
+    }
+
+    function drawFlowerShape(context, s) {
+      const petals = 5;
+      const petalDist = s * 0.36;
+      const petalR = s * 0.34;
+      const cy = s * 0.35;
+      context.beginPath();
+      for (let i = 0; i < petals; i++) {
+        const angle = (i * Math.PI * 2) / petals - Math.PI / 2;
+        const px = Math.cos(angle) * petalDist;
+        const py = cy + Math.sin(angle) * petalDist;
+        context.moveTo(px + petalR, py);
+        context.arc(px, py, petalR, 0, Math.PI * 2);
+      }
+      context.fill();
+    }
+
+    function drawAmbientShape(context, x, y, s, alpha) {
+      const shapeType = AMBIENT_SHAPES[currentShapeIndex % AMBIENT_SHAPES.length];
+      context.save();
+      context.translate(x, y);
+      context.fillStyle = `rgba(${currentHeartRgb}, ${alpha})`;
+
+      if (shapeType === "star") {
+        drawStarShape(context, s);
+      } else if (shapeType === "moon") {
+        drawMoonShape(context, s);
+      } else if (shapeType === "flower") {
+        drawFlowerShape(context, s);
+      } else {
+        drawHeartShape(context, s);
+      }
+
+      context.restore();
+    }
+
+    const sparkCanvas = document.getElementById("sparkCanvas");
+    const sparkCtx = sparkCanvas.getContext("2d");
+    const boxHearts = Array.from({ length: 16 }, (_, i) => ({
+      x: (i * 53 + 25) % 480,
+      y: (i * 37 + 20) % 190,
+      size: 5 + (i % 4) * 2.2,
+      swayOffset: i * 0.9,
+      vy: -0.22 - (i % 3) * 0.09,
+      alpha: 0.25 + (i % 4) * 0.11
+    }));
+
+    const bgCanvas = document.getElementById("bgHeartsCanvas");
+    const bgCtx = bgCanvas.getContext("2d");
+    const pageHearts = Array.from({ length: 28 }, (_, i) => ({
+      x: (i * 73 + 30) % 1200,
+      y: (i * 61 + 40) % 900,
+      size: 5.5 + (i % 4) * 2.4,
+      swayOffset: i * 1.1,
+      vy: -0.25 - (i % 3) * 0.1,
+      alpha: 0.18 + (i % 4) * 0.08
+    }));
+
+    function resizeCanvases() {
+      const rect = pinnedTopSection.getBoundingClientRect();
+      sparkCanvas.width = Math.max(1, Math.floor(rect.width));
+      sparkCanvas.height = Math.max(1, Math.floor(rect.height));
+
+      bgCanvas.width = Math.max(1, window.innerWidth);
+      bgCanvas.height = Math.max(1, window.innerHeight);
+
+      const wCanvas = document.getElementById("weatherFxCanvas");
+      if (wCanvas) {
+        wCanvas.width = Math.max(1, window.innerWidth);
+        wCanvas.height = Math.max(1, window.innerHeight);
+      }
+    }
+
+    let tick = 0;
+    function animateAllHearts() {
+      tick += 0.03;
+
+      sparkCtx.clearRect(0, 0, sparkCanvas.width, sparkCanvas.height);
+      for (const h of boxHearts) {
+        h.y += h.vy;
+        h.x += Math.sin(tick + h.swayOffset) * 0.45;
+        if (h.y < -18) {
+          h.y = sparkCanvas.height + 14;
+          h.x = Math.random() * Math.max(40, sparkCanvas.width - 20);
+        }
+        drawAmbientShape(sparkCtx, h.x, h.y, h.size, h.alpha);
+      }
+
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+      for (const h of pageHearts) {
+        h.y += h.vy;
+        h.x += Math.sin(tick + h.swayOffset) * 0.5;
+        if (h.y < -20) {
+          h.y = bgCanvas.height + 16;
+          h.x = Math.random() * Math.max(40, bgCanvas.width - 20);
+        }
+        drawAmbientShape(bgCtx, h.x, h.y, h.size, h.alpha);
+      }
+
+      requestAnimationFrame(animateAllHearts);
+    }
+
+    window.addEventListener("resize", resizeCanvases);
+
+    
+    const toggleWeatherBtn = document.getElementById("toggleDarkModeBtn");
+    const weatherToastBanner = document.getElementById("weatherToastBanner");
+    const weatherFxCanvas = document.getElementById("weatherFxCanvas");
+    const weatherFxCtx = weatherFxCanvas ? weatherFxCanvas.getContext("2d") : null;
+    let weatherToastTimer = null;
+    let weatherParticles = [];
+    let activeWeatherEffectType = "none"; // "rain" | "snow" | "cloud" | "day" | "night" | "none"
+
+    function showWeatherNotification(message, durationMs = 5200) {
+      if (!weatherToastBanner) return;
+      weatherToastBanner.textContent = message;
+      weatherToastBanner.classList.add("show");
+      if (weatherToastTimer) clearTimeout(weatherToastTimer);
+      weatherToastTimer = setTimeout(() => {
+        weatherToastBanner.classList.remove("show");
+      }, durationMs);
+    }
+
+    function applyCustomWeatherTheme(theme) {
+      if (!theme) return;
+      currentHeartRgb = theme.heartRgb;
+
+      const rootStyle = document.documentElement.style;
+      rootStyle.setProperty("--bg-overlay-top", theme.bgTop);
+      rootStyle.setProperty("--bg-overlay-bottom", theme.bgBottom);
+      rootStyle.setProperty("--card-overlay-top", theme.cardTop);
+      rootStyle.setProperty("--card-overlay-bottom", theme.cardBottom);
+      rootStyle.setProperty("--accent-text", theme.accentText);
+      rootStyle.setProperty("--sub-text", theme.subText);
+      rootStyle.setProperty("--border-soft", theme.borderSoft);
+      rootStyle.setProperty("--border-pin", theme.borderPin);
+      rootStyle.setProperty("--glow-a", theme.glowA);
+      rootStyle.setProperty("--glow-b", theme.glowB);
+      rootStyle.setProperty("--text-glow", theme.textGlow);
+      rootStyle.setProperty("--shadow-3d", theme.shadow3d);
+
+      document.body.style.backgroundImage =
+        `linear-gradient(to bottom, ${theme.bgTop}, ${theme.bgBottom}), url("${theme.src}")`;
+
+      const pinnedBox = document.getElementById("pinnedTopSection");
+      if (pinnedBox) {
+        pinnedBox.style.backgroundImage =
+          `linear-gradient(to bottom, ${theme.bgTop}, ${theme.bgBottom}), url("${theme.src}")`;
+      }
+
+      document.querySelectorAll(".header-card").forEach((el) => {
+        el.style.backgroundImage =
+          `linear-gradient(to bottom, ${theme.cardTop}, ${theme.cardBottom}), url("${theme.src}")`;
+      });
+    }
+
+    function initWeatherParticles(effectType) {
+      activeWeatherEffectType = effectType;
+      weatherParticles = [];
+      const w = Math.max(320, window.innerWidth || 400);
+      const h = Math.max(500, window.innerHeight || 800);
+
+      if (effectType === "rain") {
+        weatherParticles = Array.from({ length: 85 }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          len: 12 + Math.random() * 14,
+          vy: 7 + Math.random() * 5,
+          vx: -1.1 - Math.random() * 0.7,
+          alpha: 0.28 + Math.random() * 0.34
+        }));
+      } else if (effectType === "snow") {
+        weatherParticles = Array.from({ length: 65 }, (_, i) => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: 1.8 + Math.random() * 3.2,
+          vy: 0.7 + Math.random() * 1.1,
+          sway: i * 0.7,
+          alpha: 0.45 + Math.random() * 0.42
+        }));
+      } else if (effectType === "cloud") {
+        weatherParticles = Array.from({ length: 7 }, (_, i) => ({
+          x: (i * 180) % (w + 200) - 100,
+          y: 40 + (i % 4) * 140,
+          rx: 130 + (i % 3) * 55,
+          ry: 42 + (i % 2) * 18,
+          vx: 0.18 + (i % 3) * 0.08,
+          alpha: 0.07 + (i % 3) * 0.025
+        }));
+      }
+    }
+
+    let weatherAnimTick = 0;
+    function animateWeatherFx() {
+      weatherAnimTick += 0.025;
+      if (weatherFxCtx && weatherFxCanvas) {
+        weatherFxCtx.clearRect(0, 0, weatherFxCanvas.width, weatherFxCanvas.height);
+
+        if (isLiveWeatherModeActive && activeWeatherEffectType === "rain") {
+          weatherFxCtx.lineWidth = 1.25;
+          weatherFxCtx.lineCap = "round";
+          for (const p of weatherParticles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.y > weatherFxCanvas.height + 20) {
+              p.y = -20;
+              p.x = Math.random() * weatherFxCanvas.width;
+            }
+            if (p.x < -20) p.x = weatherFxCanvas.width + 10;
+            weatherFxCtx.strokeStyle = `rgba(195, 228, 255, ${p.alpha})`;
+            weatherFxCtx.beginPath();
+            weatherFxCtx.moveTo(p.x, p.y);
+            weatherFxCtx.lineTo(p.x + p.vx * 1.7, p.y + p.len);
+            weatherFxCtx.stroke();
+          }
+        } else if (isLiveWeatherModeActive && activeWeatherEffectType === "snow") {
+          for (const p of weatherParticles) {
+            p.y += p.vy;
+            p.x += Math.sin(weatherAnimTick + p.sway) * 0.55;
+            if (p.y > weatherFxCanvas.height + 12) {
+              p.y = -12;
+              p.x = Math.random() * weatherFxCanvas.width;
+            }
+            weatherFxCtx.fillStyle = `rgba(244, 249, 255, ${p.alpha})`;
+            weatherFxCtx.beginPath();
+            weatherFxCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            weatherFxCtx.fill();
+          }
+        } else if (isLiveWeatherModeActive && activeWeatherEffectType === "cloud") {
+          for (const c of weatherParticles) {
+            c.x += c.vx;
+            if (c.x - c.rx > weatherFxCanvas.width + 60) {
+              c.x = -c.rx - 60;
+            }
+            const grad = weatherFxCtx.createRadialGradient(c.x, c.y, c.ry * 0.2, c.x, c.y, c.rx);
+            grad.addColorStop(0, `rgba(220, 228, 238, ${c.alpha})`);
+            grad.addColorStop(1, "rgba(220, 228, 238, 0)");
+            weatherFxCtx.fillStyle = grad;
+            weatherFxCtx.beginPath();
+            weatherFxCtx.ellipse(c.x, c.y, c.rx, c.ry, 0, 0, Math.PI * 2);
+            weatherFxCtx.fill();
+          }
+        }
+      }
+      requestAnimationFrame(animateWeatherFx);
+    }
+    animateWeatherFx();
+
+    function buildThemeForWeatherCode(code, isDay) {
+      // WMO Weather interpretation codes
+      const isSnow = [71, 73, 75, 77, 85, 86].includes(code);
+      const isRain = [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].includes(code);
+      const isCloudy = [2, 3, 45, 48].includes(code);
+
+      if (isSnow) {
+        return {
+          effectType: "snow",
+          labelKu: "بەفربارین",
+          theme: {
+            src: "./bg-5.jpeg",
+            bgTop: "rgba(18, 28, 40, 0.56)",
+            bgBottom: "rgba(10, 17, 26, 0.88)",
+            cardTop: "rgba(24, 38, 54, 0.78)",
+            cardBottom: "rgba(12, 20, 30, 0.92)",
+            accentText: "#f2f8ff",
+            subText: "#e4f1ff",
+            borderSoft: "rgba(205, 232, 255, 0.44)",
+            borderPin: "rgba(232, 246, 255, 0.74)",
+            glowA: "rgba(210, 236, 255, 0.26)",
+            glowB: "rgba(150, 198, 240, 0.18)",
+            heartRgb: "225, 242, 255",
+            textGlow: "0 2px 10px rgba(5, 12, 20, 0.95)",
+            shadow3d: "0 1px 0 #5b7c9c, 0 2px 0 #425d78, 0 3px 0 #2b3f54, 0 4px 0 #182533, 0 8px 18px rgba(0, 0, 0, 0.92)"
+          }
+        };
+      }
+
+      if (isRain) {
+        return {
+          effectType: "rain",
+          labelKu: "بارانبارین",
+          theme: {
+            src: "./bg-5.jpeg",
+            bgTop: "rgba(9, 16, 25, 0.66)",
+            bgBottom: "rgba(5, 9, 15, 0.93)",
+            cardTop: "rgba(14, 24, 36, 0.82)",
+            cardBottom: "rgba(7, 13, 21, 0.94)",
+            accentText: "#cbe6ff",
+            subText: "#e2f1ff",
+            borderSoft: "rgba(144, 198, 248, 0.40)",
+            borderPin: "rgba(182, 222, 255, 0.70)",
+            glowA: "rgba(130, 190, 248, 0.24)",
+            glowB: "rgba(74, 122, 174, 0.18)",
+            heartRgb: "160, 210, 255",
+            textGlow: "0 2px 10px rgba(3, 8, 14, 0.96)",
+            shadow3d: "0 1px 0 #35608a, 0 2px 0 #254566, 0 3px 0 #182f47, 0 4px 0 #0e1c2b, 0 8px 18px rgba(0, 0, 0, 0.94)"
+          }
+        };
+      }
+
+      if (isCloudy) {
+        return {
+          effectType: "cloud",
+          labelKu: "هەوراوی",
+          theme: {
+            src: "./bg-3.jpeg",
+            bgTop: "rgba(22, 25, 30, 0.62)",
+            bgBottom: "rgba(11, 13, 16, 0.91)",
+            cardTop: "rgba(30, 34, 40, 0.80)",
+            cardBottom: "rgba(15, 17, 21, 0.93)",
+            accentText: "#eef3f9",
+            subText: "#dce3ec",
+            borderSoft: "rgba(204, 214, 226, 0.38)",
+            borderPin: "rgba(228, 236, 246, 0.66)",
+            glowA: "rgba(205, 215, 228, 0.20)",
+            glowB: "rgba(135, 146, 160, 0.15)",
+            heartRgb: "212, 220, 232",
+            textGlow: "0 2px 10px rgba(6, 8, 12, 0.95)",
+            shadow3d: "0 1px 0 #6e7682, 0 2px 0 #505660, 0 3px 0 #373c44, 0 4px 0 #212429, 0 8px 18px rgba(0, 0, 0, 0.92)"
+          }
+        };
+      }
+
+      if (isDay) {
+        return {
+          effectType: "day",
+          labelKu: "ڕۆژ و ئاسمانی ساف",
+          theme: {
+            src: "./bg-4.jpeg",
+            bgTop: "rgba(36, 24, 10, 0.44)",
+            bgBottom: "rgba(16, 11, 5, 0.82)",
+            cardTop: "rgba(44, 28, 11, 0.72)",
+            cardBottom: "rgba(20, 13, 5, 0.88)",
+            accentText: "#ffe7a3",
+            subText: "#fff7e2",
+            borderSoft: "rgba(255, 208, 108, 0.44)",
+            borderPin: "rgba(255, 224, 140, 0.74)",
+            glowA: "rgba(255, 200, 82, 0.28)",
+            glowB: "rgba(235, 145, 42, 0.20)",
+            heartRgb: "255, 214, 118",
+            textGlow: "0 2px 10px rgba(14, 8, 2, 0.92)",
+            shadow3d: "0 1px 0 #a86818, 0 2px 0 #824e0f, 0 3px 0 #5c3608, 0 4px 0 #3b2204, 0 8px 18px rgba(0, 0, 0, 0.88)"
+          }
+        };
+      }
+
+      return {
+        effectType: "night",
+        labelKu: "شەوی ساف",
+        theme: {
+          src: "./bg-2.jpeg",
+          bgTop: "rgba(10, 12, 20, 0.64)",
+          bgBottom: "rgba(5, 6, 11, 0.93)",
+          cardTop: "rgba(16, 19, 30, 0.82)",
+          cardBottom: "rgba(8, 10, 16, 0.94)",
+          accentText: "#e8efff",
+          subText: "#d5e0f7",
+          borderSoft: "rgba(182, 198, 235, 0.36)",
+          borderPin: "rgba(212, 224, 255, 0.66)",
+          glowA: "rgba(176, 196, 245, 0.20)",
+          glowB: "rgba(102, 122, 175, 0.14)",
+          heartRgb: "198, 214, 250",
+          textGlow: "0 2px 10px rgba(3, 4, 8, 0.96)",
+          shadow3d: "0 1px 0 #5c6885, 0 2px 0 #424b63, 0 3px 0 #2c3345, 0 4px 0 #191e29, 0 8px 18px rgba(0, 0, 0, 0.94)"
+        }
+      };
+    }
+
+    async function resolveCityNameFromCoords(lat, lon) {
+      try {
+        const geoUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&accept-language=ckb,ku,ar,en`;
+        const res = await fetch(geoUrl);
+        if (res.ok) {
+          const data = await res.json();
+          const addr = data && data.address ? data.address : {};
+          const city = addr.city || addr.town || addr.village || addr.county || addr.state;
+          if (city) return String(city);
+        }
+      } catch (_) {}
+
+      try {
+        const fallbackUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&localityLanguage=ku`;
+        const res2 = await fetch(fallbackUrl);
+        if (res2.ok) {
+          const d2 = await res2.json();
+          const c2 = d2.city || d2.locality || d2.principalSubdivision;
+          if (c2) return String(c2);
+        }
+      } catch (_) {}
+
+      return "شوێنی ئێستات";
+    }
+
+    function disableLiveWeatherMode() {
+      isLiveWeatherModeActive = false;
+      activeLiveWeatherTheme = null;
+      activeWeatherEffectType = "none";
+      weatherParticles = [];
+      if (toggleWeatherBtn) {
+        toggleWeatherBtn.classList.remove("active");
+        toggleWeatherBtn.textContent = "کەش و هەوا";
+      }
+      applyBackgroundTheme(activeThemeIndex);
+      showWeatherNotification("باکگراوند گەڕایەوە سەر دۆخی ئاسایی.");
+    }
+
+    async function activateLiveWeatherFromLocation() {
+      if (!navigator.geolocation) {
+        showWeatherNotification("وێبگەڕەکەت پشتگیریی لۆکەیشن ناکات.");
+        return;
+      }
+
+      if (toggleWeatherBtn) {
+        toggleWeatherBtn.disabled = true;
+        toggleWeatherBtn.textContent = "چاوەڕوانبە...";
+      }
+
+      showWeatherNotification("تکایە ڕێگە بە کردنەوەی لۆکەیشن بدە بۆ خوێندنەوەی کەشوهەوا...", 6000);
+
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          try {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+
+            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&current=temperature_2m,weather_code,is_day&timezone=auto`;
+            const [weatherRes, cityName] = await Promise.all([
+              fetch(weatherUrl),
+              resolveCityNameFromCoords(lat, lon)
+            ]);
+
+            if (!weatherRes.ok) {
+              throw new Error("Weather fetch failed");
+            }
+
+            const wData = await weatherRes.json();
+            const current = wData && wData.current ? wData.current : {};
+            const code = Number(current.weather_code ?? 0);
+            const isDay = Number(current.is_day ?? 1) === 1;
+            const temp = typeof current.temperature_2m === "number" ? Math.round(current.temperature_2m) : null;
+
+            const mapped = buildThemeForWeatherCode(code, isDay);
+            isLiveWeatherModeActive = true;
+            activeLiveWeatherTheme = mapped.theme;
+            applyCustomWeatherTheme(mapped.theme);
+            initWeatherParticles(mapped.effectType);
+
+            if (toggleWeatherBtn) {
+              toggleWeatherBtn.disabled = false;
+              toggleWeatherBtn.classList.add("active");
+              toggleWeatherBtn.textContent = "کەش و هەوا ✓";
+            }
+
+            const tempPart = temp !== null ? ` (${temp}°C - ${mapped.labelKu})` : ` (${mapped.labelKu})`;
+            showWeatherNotification(`بەپێی شاری ${cityName}${tempPart} باکگراوند چالاک کرا`, 6500);
+          } catch (err) {
+            if (toggleWeatherBtn) {
+              toggleWeatherBtn.disabled = false;
+              toggleWeatherBtn.textContent = "کەش و هەوا";
+            }
+            showWeatherNotification("نەتوانرا زانیاریی کەشوهەوا بهێنرێت، دووبارە هەوڵ بدەرەوە.");
+          }
+        },
+        (geoErr) => {
+          if (toggleWeatherBtn) {
+            toggleWeatherBtn.disabled = false;
+            toggleWeatherBtn.textContent = "کەش و هەوا";
+          }
+          if (geoErr && geoErr.code === 1) {
+            showWeatherNotification("مۆڵەتی لۆکەیشن ڕەتکرایەوە! تکایە لۆکەیشن بکەرەوە تا باکگراوند بەپێی شارەکەت بگۆڕێت.", 6500);
+          } else {
+            showWeatherNotification("نەتوانرا شوێنەکەت دیاری بکرێت، دڵنیابە لە کردنەوەی GPS.");
+          }
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 12000,
+          maximumAge: 300000
+        }
+      );
+    }
+
+    if (toggleWeatherBtn) {
+      toggleWeatherBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (isLiveWeatherModeActive) {
+          disableLiveWeatherMode();
+        } else {
+          activateLiveWeatherFromLocation();
+        }
+      });
+    }
+
+    loadNextSong(false);
+    rebuildPoemsListFromCloudAndLocal(null);
+    renderAll();
+    animateAllHearts();
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      deleteDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCA0gc8K1doRzV5UUJwuMmthBFT40U2Y8I",
+      authDomain: "sherwan-shayda-site.firebaseapp.com",
+      projectId: "sherwan-shayda-site",
+      storageBucket: "sherwan-shayda-site.firebasestorage.app",
+      messagingSenderId: "644080438556",
+      appId: "1:644080438556:web:7d1af00ae33df15dc47ed9",
+      measurementId: "G-L55GWVC0XM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    if (location.protocol === "https:" || location.protocol === "http:") {
+      getAnalytics(app);
+    }
+
+    window.sherwanAdminLogin = async function (email, password) {
+      return await signInWithEmailAndPassword(auth, String(email || "").trim(), password);
+    };
+
+    window.sherwanAdminLogout = async function () {
+      return await signOut(auth);
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (typeof window.sherwanOnAuthStateChanged === "function") {
+        window.sherwanOnAuthStateChanged(user);
+      }
+    });
+
+    window.sherwanCloudSavePost = async function (post) {
+      if (!auth.currentUser) {
+        throw new Error("تەنها بەڕێوەبەر دەتوانێت بابەت پاشەکەوت بکات.");
+      }
+      const idStr = String(post.id);
+      const ref = doc(db, "posts", idStr);
+      await setDoc(
+        ref,
+        {
+          id: idStr,
+          title: String(post.title || "شعر"),
+          body: String(post.body || ""),
+          createdAtMs: Number(post.createdAtMs || Date.now()),
+          updatedAt: serverTimestamp()
+        },
+        { merge: true }
+      );
+    };
+
+    window.sherwanCloudDeletePost = async function (postId) {
+      if (!auth.currentUser) {
+        throw new Error("تەنها بەڕێوەبەر دەتوانێت بابەت بسڕێتەوە.");
+      }
+      await deleteDoc(doc(db, "posts", String(postId)));
+    };
+
+    const postsQuery = query(collection(db, "posts"), orderBy("createdAtMs", "desc"));
+    onSnapshot(
+      postsQuery,
+      (snapshot) => {
+        const items = snapshot.docs.map((d) => {
+          const data = d.data() || {};
+          return {
+            id: String(data.id || d.id),
+            title: String(data.title || "شعر"),
+            body: String(data.body || ""),
+            createdAtMs: Number(data.createdAtMs || 0)
+          };
+        });
+        if (typeof window.sherwanApplyCloudPosts === "function") {
+          window.sherwanApplyCloudPosts(items);
+        }
+      },
+      (err) => {
+        console.warn("Firestore watch error:", err);
+      }
+    );
+  </script>
+</body>
+</html>
